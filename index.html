@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/carrito.css">
+    <link rel="stylesheet" href="css/grillaProductos.css">
+    <link rel="stylesheet" href="css/modal.css">
+    <script type="module" src="js/app.js"></script>
+    
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="logo">
+                    <h3>E-Commerce</h3>
+                </div>
+                <div class="filtro">
+                    <input placeholder="Busca tu producto aquí..." type="text" class="filtrador">
+                </div>
+                
+                <div class="navbar-carrito">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="carritoContador" class="carrito-contador">0</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="toolbar">
+
+                <div class="catalogo-info">
+                    <p id="cantidadProductos">0 productos encontrados</p>
+                </div>
+                <div class="catalogo-acciones">
+                    <input id="buscador" placeholder="busca tu producto aquí" type="text">
+                    <select name="" id="ordenador">
+                        <option value="">Ordenar por</option>
+                        <option value="precioMayor">Precio: mayor a menor</option>
+                        <option value="precioMenor">Precio: menor a mayor</option>
+                        <option value="mejorEvaluado">Mejor evaluados</option>
+                       
+                    </select>
+                </div>
+
+         </div>   
+
+        <div class="container">                    
+
+            <div id="grillaProductos"></div>
+            
+        </div>
+    </main>
+
+    <footer>
+
+
+    </footer>
+
+    <div id="overlay" class="overlay"></div>
+
+    <aside id="carritoLateral" class="carrito-lateral">
+        <h2>Tu Carrito</h2>
+        <div id="listaCarrito" class="carrito-lista">
+            <p>No tienes ningún producto en tu carrito.</p>
+        </div>
+        <div class="carrito-acciones">
+            <button id="btnVerCarrito" class="carrito-ver">Ver Carrito</button>
+        </div>
+    </aside>
+
+    <div id="modal" class="modal-overlay">
+        <div class="modal-box">
+            <h2>Mi Modal</h2>
+            <button class="modal-btn-cerrar">x</button>
+            <img src="" alt="">
+            <p class="modal-titulo"></p>
+            <p class="modal-descripcion"></p>
+        </div>
+    </div>
+    
+</body>
+</html>

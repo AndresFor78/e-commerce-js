@@ -1,0 +1,16 @@
+.container{
+    max-width: 1200px;
+    margin: 0 auto;    
+    padding: 10px;
+    padding-top: 4rem;
+    position: relative;
+}
+
+
+.toolbar{
+    position: sticky;
+    top: 3rem;  
+    background-color: #FFF;
+    z-index: var(--z-toolbar);
+    padding: 1rem;
+}

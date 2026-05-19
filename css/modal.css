@@ -1,0 +1,36 @@
+.modal-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.modal-overlay.mostrar{
+    display: flex;
+}
+
+.modal-overlay.ocultar{
+    display: none;
+}
+
+.modal-box{
+    background-color: #FFF;
+    max-width: 400px;
+    padding: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-box .modal-btn-cerrar{
+    position: absolute;
+    top: 0;
+    right: 0;
+}
