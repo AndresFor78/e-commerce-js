@@ -8,8 +8,7 @@ export function agregarAlCarrito(producto) {
         existe.cantidad++;
     }else{
         const nuevo = {
-            idProducto: producto.id,
-            title: producto.title,
+            idProducto: producto.id,           
             cantidad: 1
         }
 
@@ -32,7 +31,7 @@ export function obtenerCarrito() {
     return carrito;    
 }
 
-export function obtenerTotalCarrito() {    
+export function obtenerTotalProductosCarrito() {    
     
     const total = carrito.reduce((acc, item)=> {
         return acc + item.cantidad;
@@ -40,3 +39,4 @@ export function obtenerTotalCarrito() {
 
     return total;
 }
+

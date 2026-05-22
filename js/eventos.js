@@ -1,4 +1,4 @@
-import { actualizarContadorCarrito, getProductos, 
+import { getProductos, 
          renderizarCarrito, renderizarModal, 
          renderizarProductos} from "./ui.js";
 import { agregarAlCarrito, eliminarProducto, obtenerCarrito } from "./carrito.js";
@@ -13,6 +13,7 @@ const ordenador = document.getElementById('ordenador');
 
 export function inicializarEventos() {
 
+    renderizarCarrito();
     navbarCarrito.addEventListener('click', abrirCarrito);
     overlay.addEventListener('click', cerrarCarrito);
     grillaProductos.addEventListener('click', manejarEventosGrillaProductos);
@@ -55,8 +56,7 @@ function manejarEventosGrillaProductos(e) {
     // Agregar al carrito
     if (e.target.classList.contains('btn-agregar-carrito')) {
         agregarAlCarrito(producto);
-        renderizarCarrito();
-        actualizarContadorCarrito();   
+        renderizarCarrito();         
     };
 
     // Mostrar detalle producto
@@ -70,6 +70,11 @@ function manejarEventosGrillaProductos(e) {
 
 function manejarEventosCarritoLateral(e) {
 
+    // Cerrar carrito
+    if (e.target.id === 'btnCerrarCarritoLateral') {
+        cerrarCarrito();        
+    }
+    
     const carritoItem = e.target.closest('.carrito-item');
     if (!carritoItem) return;
 
@@ -79,22 +84,29 @@ function manejarEventosCarritoLateral(e) {
 
     if (!productoCarrito) return;
 
+    const btnEliminar = e.target.closest('.carrito-eliminar-producto');
+
+    
+
     if (e.target.classList.contains('btn-mas')) {
         productoCarrito.cantidad++;
-        pCantidad.textContent = productoCarrito.cantidad;
+        renderizarCarrito();
     };
 
     if (e.target.classList.contains('btn-menos')) {
+
         if (productoCarrito.cantidad === 1) {
-            eliminarProducto(productoCarrito);
-            renderizarCarrito();
+            eliminarProducto(productoCarrito);            
         }else{
-            productoCarrito.cantidad--;
-            pCantidad.textContent = productoCarrito.cantidad;
-        }        
+            productoCarrito.cantidad--;            
+        }
+        renderizarCarrito();
     }
 
-    actualizarContadorCarrito();    
+    if (btnEliminar) {
+        eliminarProducto(productoCarrito);
+        renderizarCarrito();
+    }   
     
 }
 

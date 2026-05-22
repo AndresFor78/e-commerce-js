@@ -68,12 +68,22 @@
     <div id="overlay" class="overlay"></div>
 
     <aside id="carritoLateral" class="carrito-lateral">
-        <h2>Tu Carrito</h2>
-        <div id="listaCarrito" class="carrito-lista">
-            <p>No tienes ningún producto en tu carrito.</p>
+        <div class="carrito-cerrar">
+            <button id="btnCerrarCarritoLateral">X</button>
         </div>
-        <div class="carrito-acciones">
-            <button id="btnVerCarrito" class="carrito-ver">Ver Carrito</button>
+        <div class="carrito-cantidad-productos">
+            <p>Tienes</p>
+            <p>(<span id="cantidadTotalProductos"></span>)</p>
+            <p>ítems en el carrito</p>
+        </div>       
+        <div id="listaCarrito" class="carrito-lista"></div>
+        <div class="carrito-resumen">
+            <div class="resumen-total">
+                <p>Total estimado <span id="totalEstimado"></span></p>
+            </div>
+            <div class="carrito-ver">
+                <button id="btnVerCarrito" class="carrito-button-ver">Ver Carrito</button>
+            </div>
         </div>
     </aside>
 
