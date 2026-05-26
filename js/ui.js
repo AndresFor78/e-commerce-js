@@ -1,14 +1,18 @@
 import { obtenerCarrito, obtenerTotalProductosCarrito } from "./carrito.js";
 import { obtenerTotalCarrito } from "./carritoUtils.js";
 
-const carritoUI = {
+function obtenerCarritoUI() {
+    const carritoUI = {
     listaCarrito: document.getElementById('listaCarrito'),
     btnVer: document.getElementById('btnVerCarrito'),
     cantidadTotalProductos: document.getElementById('cantidadTotalProductos'),
     contadorCarrito: document.getElementById('carritoContador'),
     spanTotalCarrito: document.getElementById('totalEstimado'),
     divCarritoResumen: document.querySelector('.carrito-resumen')
-};
+    };
+    return carritoUI;    
+}
+
 
 let modalBox = document.querySelector('.modal-box');
 
@@ -61,7 +65,9 @@ export function renderizarCarrito() {
 
     const productosCarrito = obtenerCarrito();
 
-    actualizarEstadoCarrito(productosCarrito);
+    const carritoUI = obtenerCarritoUI();
+
+    actualizarEstadoCarrito(productosCarrito, carritoUI);
          
     if (productosCarrito.length === 0) {  
         
@@ -73,7 +79,7 @@ export function renderizarCarrito() {
     
 }
 
-function actualizarEstadoCarrito(productosCarrito) {
+function actualizarEstadoCarrito(productosCarrito, carritoUI) {
 
     const total = obtenerTotalProductosCarrito();
 

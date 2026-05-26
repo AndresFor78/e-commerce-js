@@ -22,8 +22,6 @@ export function eliminarProducto(productoCarrito) {
 
     if (existe) {
         carrito = carrito.filter(c=> c.idProducto !== productoCarrito.idProducto);
-        console.log(carrito);
-        
     }
 }
 

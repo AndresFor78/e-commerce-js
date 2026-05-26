@@ -1,24 +1,10 @@
-import { obtenerProductoPorId } from "./api.js";
+import { cargarNavbar } from "./layoutComponente.js";
 
 window.addEventListener('load', init);
 
-function init() {
+async function init() {
 
-    const idProducto = obtenerIdProductoDesdeUrl();    
-
-    obtenerProductoPorId(idProducto)
-    .then(producto=> {
-        console.log(producto);        
-    })
-    .catch(e=>{
-        console.log(e);        
-    })
-    
-}
-
-function obtenerIdProductoDesdeUrl() {
-
-    const params = new URLSearchParams(window.location.search);
-    return Number(params.get('id'));
+    const navbar = document.getElementById('navbarComponente');
+    navbar.innerHTML = await cargarNavbar();
     
 }

@@ -3,15 +3,19 @@ import { getProductos,
          renderizarProductos} from "./ui.js";
 import { agregarAlCarrito, eliminarProducto, obtenerCarrito } from "./carrito.js";
 
-const navbarCarrito = document.querySelector('.navbar-carrito');
-const carritoLateral = document.getElementById('carritoLateral');
-const overlay = document.getElementById('overlay');
-const grillaProductos = document.getElementById('grillaProductos');
-const modalOverlay = document.getElementById('modal');
-const filtrador = document.querySelector('.filtrador');
-const ordenador = document.getElementById('ordenador');
+let carritoLateral = '';
+let overlay = '';
+let modalOverlay = '';
 
 export function inicializarEventos() {
+
+    const navbarCarrito = document.querySelector('.navbar-carrito');
+    carritoLateral = document.getElementById('carritoLateral');
+    overlay = document.getElementById('overlay');
+    modalOverlay = document.getElementById('modal');
+    const grillaProductos = document.getElementById('grillaProductos');   
+    const filtrador = document.querySelector('.filtrador');
+    const ordenador = document.getElementById('ordenador');
 
     renderizarCarrito();
     navbarCarrito.addEventListener('click', abrirCarrito);
@@ -62,9 +66,9 @@ function manejarEventosGrillaProductos(e) {
     // Mostrar detalle producto
     if (e.target.classList.contains('btn-detalle')) {
         // abrirModal();  
-        // renderizarModal(producto);  
-        window.location.href = `producto.html?id=${producto.id}`; 
-       
+        // renderizarModal(producto); 
+        window.location.href = `producto.html?idProducto=${producto.id}`;
+        
     }
 }
 

@@ -1,20 +1,25 @@
 import { inicializarEventos } from "./eventos.js";
 import { obtenerProductos } from "./api.js";
 import { renderizarProductos, setProductos } from "./ui.js";
+import { cargarNavbar } from "./layoutComponente.js";
 
 window.addEventListener('load', init);
 
-function init() {
+async function init() {
+    
+    try {
 
-    inicializarEventos();
-
-    obtenerProductos()
-    .then(productos => {
+        document.getElementById('navbarComponente').innerHTML = await cargarNavbar();
+    
+        inicializarEventos();
+    
+        const productos = await obtenerProductos();
         setProductos(productos);
         renderizarProductos(productos);
-    })
-    .catch(e=>{
-        console.log(e);        
-    })
+
+    } catch (error) {
+        console.log(error);        
+    }
+  
     
 }
