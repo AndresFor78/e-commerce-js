@@ -5,7 +5,6 @@ export async function obtenerProductos() {
     if(!resul.ok) throw new Error("Error al obtener productos");
 
     const productos = await resul.json();
-    return productos.products;
-    
+    return productos.products;    
     
 }

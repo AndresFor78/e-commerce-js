@@ -1,26 +1,6 @@
-import { obtenerCarrito, obtenerTotalProductosCarrito } from "./carrito.js";
+import { obtenerTotalProductosCarrito } from "./carrito.js";
 import { obtenerTotalCarrito } from "./carritoUtils.js";
-
-function obtenerCarritoUI() {
-    const carritoUI = {
-    listaCarrito: document.getElementById('listaCarrito'),
-    btnVer: document.getElementById('btnVerCarrito'),
-    cantidadTotalProductos: document.getElementById('cantidadTotalProductos'),
-    contadorCarrito: document.getElementById('carritoContador'),
-    spanTotalCarrito: document.getElementById('totalEstimado'),
-    divCarritoResumen: document.querySelector('.carrito-resumen')
-    };
-    return carritoUI;    
-}
-
-
-let modalBox = document.querySelector('.modal-box');
-
-const modalUI = {
-    img: modalBox.querySelector('img'),
-    titulo: modalBox.querySelector('.modal-titulo'),
-    descripcion: modalBox.querySelector('.modal-descripcion')
-}
+import { setCarrito } from "./helpers/helperLocalStorage.js";
 
 let productosGlobal = [];
 
@@ -53,17 +33,15 @@ export function renderizarProductos(productos) {
     
 }
 
-export function setProductos(productos) {
+export function setProductosUI(productos) {
     productosGlobal = productos;    
 }
 
-export function getProductos() {
+export function getProductosUI() {
     return productosGlobal;
 }
 
-export function renderizarCarrito() {    
-
-    const productosCarrito = obtenerCarrito();
+export function renderizarCarrito(productosCarrito) {
 
     const carritoUI = obtenerCarritoUI();
 
@@ -76,19 +54,21 @@ export function renderizarCarrito() {
     }
 
     renderizarCarritoConProductos(productosCarrito, carritoUI.listaCarrito);
+
+    setCarrito(productosCarrito);
     
 }
 
 function actualizarEstadoCarrito(productosCarrito, carritoUI) {
 
-    const total = obtenerTotalProductosCarrito();
+    const total = obtenerTotalProductosCarrito(productosCarrito);
 
     carritoUI.listaCarrito.classList.toggle('carrito-vacio', productosCarrito.length === 0);
     carritoUI.btnVer.classList.toggle('ocultar', productosCarrito.length === 0);
     carritoUI.divCarritoResumen.classList.toggle('ocultar', productosCarrito.length === 0);
     carritoUI.cantidadTotalProductos.textContent = total;
     carritoUI.contadorCarrito.textContent = total;
-    carritoUI.spanTotalCarrito.textContent = `$ ${obtenerTotalCarrito(obtenerCarrito(), getProductos()).toFixed(2)}`
+    carritoUI.spanTotalCarrito.textContent = `$ ${obtenerTotalCarrito(productosCarrito, getProductosUI()).toFixed(2)}`
 
 }
 
@@ -101,7 +81,7 @@ function renderizarCarritoVacio(listaCarrito) {
 
 function renderizarCarritoConProductos(productosCarrito, listaCarrito) {
 
-    const productos = getProductos();
+    const productos = getProductosUI();
 
     let html = '';
 
@@ -136,10 +116,15 @@ function renderizarCarritoConProductos(productosCarrito, listaCarrito) {
     
 }
 
-export function renderizarModal(producto) {
-    
-   modalUI.img.src = producto.thumbnail;
-   modalUI.titulo.textContent = producto.title;
-   modalUI.descripcion.textContent = producto.description;
-
+function obtenerCarritoUI() {
+    const carritoUI = {
+    listaCarrito: document.getElementById('listaCarrito'),
+    btnVer: document.getElementById('btnVerCarrito'),
+    cantidadTotalProductos: document.getElementById('cantidadTotalProductos'),
+    contadorCarrito: document.getElementById('carritoContador'),
+    spanTotalCarrito: document.getElementById('totalEstimado'),
+    divCarritoResumen: document.querySelector('.carrito-resumen')
+    };
+    return carritoUI;    
 }
+

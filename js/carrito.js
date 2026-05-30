@@ -1,6 +1,6 @@
-let carrito = [];
+import { getCarrito, setCarrito } from "./helpers/helperLocalStorage.js";
 
-export function agregarAlCarrito(producto) {
+export function agregarAlCarrito(producto, carrito) {
 
     const existe = carrito.find(c=> c.idProducto === producto.id);
     
@@ -14,24 +14,46 @@ export function agregarAlCarrito(producto) {
 
         carrito.push(nuevo);
     }
+    setCarrito(carrito);
 }
 
-export function eliminarProducto(productoCarrito) {
+export function eliminarProducto(idProducto, carrito) {
    
-    const existe = carrito.find(c=> c.idProducto === productoCarrito.idProducto);
+    const existe = carrito.find(c=> c.idProducto === idProducto);
 
     if (existe) {
-        carrito = carrito.filter(c=> c.idProducto !== productoCarrito.idProducto);
+        carrito = carrito.filter(c=> c.idProducto !== idProducto); 
+        setCarrito(carrito);       
     }
 }
 
-export function obtenerCarrito() {
-    return carrito;    
+export function incrementarCantidad(idProducto, carrito) {
+
+    const producto = carrito.find(c=> c.idProducto === idProducto);
+
+    if (!producto) return;
+
+    producto.cantidad++;
+
+    setCarrito(carrito);  
+    
 }
 
-export function obtenerTotalProductosCarrito() {    
+export function decrementarCantidad(idProducto, carrito) {
+    const producto = carrito.find(c=> c.idProducto === idProducto);
+    if (!producto) return;
+
+    if (producto.cantidad === 1) {
+        eliminarProducto(producto, carrito);
+    }else{
+        producto.cantidad--;
+        setCarrito(carrito);
+    }
+}
+
+export function obtenerTotalProductosCarrito(productosCarrito) {    
     
-    const total = carrito.reduce((acc, item)=> {
+    const total = productosCarrito.reduce((acc, item)=> {
         return acc + item.cantidad;
     }, 0);
 

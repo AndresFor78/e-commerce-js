@@ -9,3 +9,14 @@ export async function cargarNavbar() {
     return html;
     
 }
+
+export async function cargarCarritoLateral() {
+    
+    const resul = await fetch('./componentes/carrito.html');
+    if (!resul.ok) throw new Error("Ocurrió un error al cargar el carrito lateral");
+
+    const html = await resul.text();
+
+    return html;
+    
+}
