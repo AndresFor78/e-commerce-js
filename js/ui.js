@@ -2,8 +2,6 @@ import { obtenerTotalProductosCarrito } from "./carrito.js";
 import { obtenerTotalCarrito } from "./carritoUtils.js";
 import { setCarrito } from "./helpers/helperLocalStorage.js";
 
-let productosGlobal = [];
-
 export function renderizarProductos(productos) {
     
     let grilla = document.getElementById('grillaProductos');
@@ -33,33 +31,22 @@ export function renderizarProductos(productos) {
     
 }
 
-export function setProductosUI(productos) {
-    productosGlobal = productos;    
-}
-
-export function getProductosUI() {
-    return productosGlobal;
-}
-
-export function renderizarCarrito(productosCarrito) {
+export function renderizarCarrito(productosCarrito, productos) {
 
     const carritoUI = obtenerCarritoUI();
 
-    actualizarEstadoCarrito(productosCarrito, carritoUI);
+    actualizarEstadoCarrito(productosCarrito, productos, carritoUI);
          
-    if (productosCarrito.length === 0) {  
-        
+    if (productosCarrito.length === 0) {          
         renderizarCarritoVacio(carritoUI.listaCarrito);          
         return;
     }
 
-    renderizarCarritoConProductos(productosCarrito, carritoUI.listaCarrito);
-
-    setCarrito(productosCarrito);
+    renderizarCarritoConProductos(productosCarrito, productos, carritoUI.listaCarrito);
     
 }
 
-function actualizarEstadoCarrito(productosCarrito, carritoUI) {
+function actualizarEstadoCarrito(productosCarrito, productos, carritoUI) {
 
     const total = obtenerTotalProductosCarrito(productosCarrito);
 
@@ -68,7 +55,7 @@ function actualizarEstadoCarrito(productosCarrito, carritoUI) {
     carritoUI.divCarritoResumen.classList.toggle('ocultar', productosCarrito.length === 0);
     carritoUI.cantidadTotalProductos.textContent = total;
     carritoUI.contadorCarrito.textContent = total;
-    carritoUI.spanTotalCarrito.textContent = `$ ${obtenerTotalCarrito(productosCarrito, getProductosUI()).toFixed(2)}`
+    carritoUI.spanTotalCarrito.textContent = `$ ${obtenerTotalCarrito(productosCarrito, productos).toFixed(2)}`
 
 }
 
@@ -79,9 +66,7 @@ function renderizarCarritoVacio(listaCarrito) {
                               </div>`    
 }
 
-function renderizarCarritoConProductos(productosCarrito, listaCarrito) {
-
-    const productos = getProductosUI();
+function renderizarCarritoConProductos(productosCarrito, productos, listaCarrito) {    
 
     let html = '';
 

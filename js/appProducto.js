@@ -1,20 +1,20 @@
-import { inicializarEventosGlobal } from "./eventosGlobal.js";
-import { getCarrito, getProductos } from "./helpers/helperLocalStorage.js";
-import { cargarNavbar, cargarCarritoLateral } from "./layoutComponente.js";
-import { renderizarCarrito, setProductosUI } from "./ui.js";
+import { bootstrapApp } from "./bootstrap/bootstrapApp.js";
+import { obtenerValorParametro } from "./helpers/helperParametrosURL.js";
+import { obtenerProductoPorId } from "./api.js";
+
 
 window.addEventListener('load', init);
 
 async function init() {
 
-    document.getElementById('navbarComponente').innerHTML = await cargarNavbar();
-    document.getElementById('contenedorCarritoLateral').innerHTML = await cargarCarritoLateral();
+    await bootstrapApp();
 
-    setProductosUI(getProductos());
+    const idProducto = obtenerValorParametro('idProducto');
 
-    renderizarCarrito(getCarrito());
-    console.log(getProductos());
+    const producto = await obtenerProductoPorId(idProducto);  
     
-    inicializarEventosGlobal();
+    console.log(producto);
+    
     
 }
+

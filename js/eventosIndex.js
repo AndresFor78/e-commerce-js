@@ -1,6 +1,7 @@
-import { getProductosUI, renderizarProductos, renderizarCarrito} from "./ui.js";
+import { renderizarProductos, renderizarCarrito} from "./ui.js";
 import { agregarAlCarrito } from "./carrito.js";
-import { getCarrito, setCarrito } from "./helpers/helperLocalStorage.js";
+import { obtenerProductosStore } from "./store/store.js";
+import { getCarrito } from "./helpers/helperLocalStorage.js";
 
 export function inicializarEventosIndex() {
     
@@ -13,23 +14,24 @@ export function inicializarEventosIndex() {
 
 }
 
-function manejarEventosGrillaProductos(e) {
+async function manejarEventosGrillaProductos(e) {
 
     const carrito = getCarrito();
+    const productos = await obtenerProductosStore();
 
     const card = e.target.closest('.card');
 
     if (!card) return;
 
     const idProducto = Number(card.dataset.id);
-    const producto = getProductosUI().find(p=> p.id === idProducto);
+    const producto = productos.find(p=> p.id === idProducto);
 
     if (!producto) return;
 
     // Agregar al carrito
     if (e.target.classList.contains('btn-agregar-carrito')) {
         agregarAlCarrito(producto, carrito);
-        renderizarCarrito(getCarrito());         
+        renderizarCarrito(getCarrito(), productos);              
     };
 
     // Mostrar detalle producto

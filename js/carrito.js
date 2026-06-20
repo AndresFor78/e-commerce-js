@@ -44,7 +44,7 @@ export function decrementarCantidad(idProducto, carrito) {
     if (!producto) return;
 
     if (producto.cantidad === 1) {
-        eliminarProducto(producto, carrito);
+        eliminarProducto(idProducto, carrito);
     }else{
         producto.cantidad--;
         setCarrito(carrito);

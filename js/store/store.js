@@ -1,11 +1,11 @@
-import { obtenerProductos } from "../api";
-import { getProductos, setProductos } from "../helpers/helperLocalStorage";
+import { obtenerProductos } from "../api.js";
+import { getProductos, setProductos } from "../helpers/helperLocalStorage.js";
 
-let productosCache = [];
+let productosCache = null;
 
 export async function obtenerProductosStore() {
-
-    const productos = [];
+    
+    let productos = [];
 
     // Memoria
     if (productosCache) return productosCache;
@@ -14,7 +14,7 @@ export async function obtenerProductosStore() {
     productos = getProductos();
     if (productos) {
         productosCache = productos;
-        return productos;
+        return productos;        
     }
 
     // Fetch
@@ -24,5 +24,4 @@ export async function obtenerProductosStore() {
         setProductos(productos);
         return productos;
     }
-    
 }

@@ -1,6 +1,7 @@
 import { renderizarCarrito } from "./ui.js";
 import { agregarAlCarrito, decrementarCantidad, eliminarProducto, incrementarCantidad } from "./carrito.js";
 import { getCarrito, setCarrito } from "./helpers/helperLocalStorage.js";
+import { obtenerProductosStore } from "./store/store.js";
 
 let carritoLateral = '';
 let overlay = '';
@@ -27,10 +28,11 @@ function cerrarCarrito() {
     overlay.classList.remove('activo');
 }
 
-function manejarEventosCarritoLateral(e) {
+async function manejarEventosCarritoLateral(e) {
 
     //Obtiene carrito del LocalStorage
     const carrito = getCarrito();
+    const productos = await obtenerProductosStore();
   
     // Cerrar carrito
     if (e.target.id === 'btnCerrarCarritoLateral') {
@@ -44,17 +46,17 @@ function manejarEventosCarritoLateral(e) {
    
     if (e.target.classList.contains('btn-mas')) {
         incrementarCantidad(idProducto, carrito); 
-        renderizarCarrito(getCarrito());
+        renderizarCarrito(getCarrito(), productos);
     };
 
     if (e.target.classList.contains('btn-menos')) {
         decrementarCantidad(idProducto, carrito);           
-        renderizarCarrito(getCarrito());
+        renderizarCarrito(getCarrito(), productos);
     }
 
     if (e.target.closest('.carrito-eliminar-producto')) {
         eliminarProducto(idProducto, carrito);        
-        renderizarCarrito(getCarrito());
+        renderizarCarrito(getCarrito(), productos);
     }   
     
 }
