@@ -9,12 +9,3 @@ export function getCarrito() {
     return carrito;
     
 }
-
-export function setProductos(productos) {
-    localStorage.setItem('productosGlobal', JSON.stringify(productos));
-}
-
-export function getProductos() {
-    const productos = localStorage.getItem('productosGlobal');
-    return JSON.parse(productos);
-}

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/carrito.css">
+    <link rel="stylesheet" href="css/toolbar.css">
     <link rel="stylesheet" href="css/grillaProductos.css">
     <link rel="stylesheet" href="css/modal.css">
     <script type="module" src="js/app.js"></script>    
@@ -23,7 +24,7 @@
         <div class="toolbar">
 
                 <div class="catalogo-info">
-                    <p id="cantidadProductos">0 productos encontrados</p>
+                    <p><span id="cantidadProductosEncontrados"></span> Productos</p>
                 </div>
                 <div class="catalogo-acciones">
                     <input id="buscador" placeholder="busca tu producto aquí" type="text">
@@ -31,8 +32,7 @@
                         <option value="">Ordenar por</option>
                         <option value="precioMayor">Precio: mayor a menor</option>
                         <option value="precioMenor">Precio: menor a mayor</option>
-                        <option value="mejorEvaluado">Mejor evaluados</option>
-                       
+                        <option value="mejorEvaluado">Mejor evaluados</option>                       
                     </select>
                 </div>
 

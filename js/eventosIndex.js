@@ -4,14 +4,26 @@ import { obtenerProductosStore } from "./store/store.js";
 import { getCarrito } from "./helpers/helperLocalStorage.js";
 
 export function inicializarEventosIndex() {
-    
-    const grillaProductos = document.getElementById('grillaProductos');   
-    const filtrador = document.querySelector('.filtrador');
+
+    const buscador = document.getElementById('buscador');
+    const grillaProductos = document.getElementById('grillaProductos');    
     const ordenador = document.getElementById('ordenador');
    
+    buscador.addEventListener('input', handlerBuscador);
     grillaProductos.addEventListener('click', manejarEventosGrillaProductos);    
     ordenador.addEventListener('change', manejarSelectOrdenador);
 
+}
+
+async function handlerBuscador(e) {
+
+    const valor = e.target.value.toUpperCase();
+    const productos = await obtenerProductosStore();
+
+    const productosFiltrados = productos.filter(p=> p.title.toUpperCase().includes(valor));
+
+    renderizarProductos(productosFiltrados);    
+    
 }
 
 async function manejarEventosGrillaProductos(e) {

@@ -1,6 +1,6 @@
 export async function obtenerProductos() {
 
-    const resul = await fetch('https://dummyjson.com/products?limit=10');
+    const resul = await fetch('https://dummyjson.com/products?limit=0');
 
     if(!resul.ok) throw new Error("Error al obtener productos");
 

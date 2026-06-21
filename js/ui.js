@@ -3,6 +3,9 @@ import { obtenerTotalCarrito } from "./carritoUtils.js";
 import { setCarrito } from "./helpers/helperLocalStorage.js";
 
 export function renderizarProductos(productos) {
+
+    const spanCantidadProductos = document.getElementById('cantidadProductosEncontrados');
+    spanCantidadProductos.textContent = productos.length;
     
     let grilla = document.getElementById('grillaProductos');
 
