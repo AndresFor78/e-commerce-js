@@ -16,5 +16,10 @@ html{
     --z-navbar: 10;
     --z-toolbar: 10;   
     --z-carrito-overlay: 20;
-    --z-carrito-lateral: 30;     
+    --z-carrito-lateral: 30;   
+    --titulo-color: #0f766e;  
+}
+
+.abrir-detalle{
+    cursor: pointer;
 }

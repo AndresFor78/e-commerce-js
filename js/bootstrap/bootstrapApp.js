@@ -1,7 +1,7 @@
 import { cargarNavbar, cargarCarritoLateral } from "../layoutComponente.js";
 import { inicializarEventosGlobal } from "../eventosGlobal.js";
 import { obtenerProductosStore } from "../store/store.js";
-import { renderizarCarrito } from "../ui.js";
+import { renderizarCarritoLateral } from "../ui.js";
 import { getCarrito } from "../helpers/helperLocalStorage.js";
 
 export async function bootstrapApp() {
@@ -12,7 +12,7 @@ export async function bootstrapApp() {
     inicializarEventosGlobal();
 
     const productos = await obtenerProductosStore();
-    renderizarCarrito(getCarrito(), productos);  
+    renderizarCarritoLateral(getCarrito(), productos);  
 
     return productos;
     

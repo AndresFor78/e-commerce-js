@@ -1,15 +1,15 @@
 import { getCarrito, setCarrito } from "./helpers/helperLocalStorage.js";
 
-export function agregarAlCarrito(producto, carrito) {
+export function agregarAlCarrito(producto, carrito, cantidad) {
 
     const existe = carrito.find(c=> c.idProducto === producto.id);
-    
+        
     if (existe) {
-        existe.cantidad++;
+        existe.cantidad += cantidad;
     }else{
         const nuevo = {
             idProducto: producto.id,           
-            cantidad: 1
+            cantidad: cantidad
         }
 
         carrito.push(nuevo);
@@ -40,6 +40,7 @@ export function incrementarCantidad(idProducto, carrito) {
 }
 
 export function decrementarCantidad(idProducto, carrito) {
+
     const producto = carrito.find(c=> c.idProducto === idProducto);
     if (!producto) return;
 
@@ -58,5 +59,9 @@ export function obtenerTotalProductosCarrito(productosCarrito) {
     }, 0);
 
     return total;
+}
+
+export function notificarCarritoActualizado() {
+    document.dispatchEvent(new CustomEvent('carritoActualizado'));
 }
 

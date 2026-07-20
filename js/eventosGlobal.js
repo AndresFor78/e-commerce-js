@@ -1,5 +1,6 @@
-import { renderizarCarrito } from "./ui.js";
-import { agregarAlCarrito, decrementarCantidad, eliminarProducto, incrementarCantidad } from "./carrito.js";
+import { renderizarCarritoLateral } from "./ui.js";
+import { agregarAlCarrito, decrementarCantidad, eliminarProducto, incrementarCantidad,
+         notificarCarritoActualizado } from "./carrito.js";
 import { getCarrito, setCarrito } from "./helpers/helperLocalStorage.js";
 import { obtenerProductosStore } from "./store/store.js";
 
@@ -33,6 +34,11 @@ async function manejarEventosCarritoLateral(e) {
     //Obtiene carrito del LocalStorage
     const carrito = getCarrito();
     const productos = await obtenerProductosStore();
+
+    // Ver carrito
+    if (e.target.classList.contains('carrito-button-ver')) {
+        window.location.href = 'carrito.html';       
+    }
   
     // Cerrar carrito
     if (e.target.id === 'btnCerrarCarritoLateral') {
@@ -46,18 +52,25 @@ async function manejarEventosCarritoLateral(e) {
    
     if (e.target.classList.contains('btn-mas')) {
         incrementarCantidad(idProducto, carrito); 
-        renderizarCarrito(getCarrito(), productos);
+        renderizarCarritoLateral(getCarrito(), productos);
+        notificarCarritoActualizado();
     };
 
     if (e.target.classList.contains('btn-menos')) {
         decrementarCantidad(idProducto, carrito);           
-        renderizarCarrito(getCarrito(), productos);
+        renderizarCarritoLateral(getCarrito(), productos);
+        notificarCarritoActualizado();
     }
 
     if (e.target.closest('.carrito-eliminar-producto')) {
         eliminarProducto(idProducto, carrito);        
-        renderizarCarrito(getCarrito(), productos);
+        renderizarCarritoLateral(getCarrito(), productos);
+        notificarCarritoActualizado();
     }   
+
+    if (e.target.classList.contains('abrir-detalle')) {
+        window.location.href = `producto.html?idProducto=${idProducto}`        
+    }
     
 }
 

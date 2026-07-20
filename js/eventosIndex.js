@@ -1,4 +1,4 @@
-import { renderizarProductos, renderizarCarrito} from "./ui.js";
+import { renderizarProductos, renderizarCarritoLateral} from "./ui.js";
 import { agregarAlCarrito } from "./carrito.js";
 import { obtenerProductosStore } from "./store/store.js";
 import { getCarrito } from "./helpers/helperLocalStorage.js";
@@ -10,9 +10,9 @@ export function inicializarEventosIndex() {
     const ordenador = document.getElementById('ordenador');
    
     buscador.addEventListener('input', handlerBuscador);
-    grillaProductos.addEventListener('click', manejarEventosGrillaProductos);    
-    ordenador.addEventListener('change', manejarSelectOrdenador);
-
+    grillaProductos.addEventListener('click', manejarEventosGrillaProductos); 
+    ordenador.addEventListener('change', handlerOrdenador);   
+   
 }
 
 async function handlerBuscador(e) {
@@ -31,6 +31,8 @@ async function manejarEventosGrillaProductos(e) {
     const carrito = getCarrito();
     const productos = await obtenerProductosStore();
 
+    console.log(e.target);    
+
     const card = e.target.closest('.card');
 
     if (!card) return;
@@ -40,34 +42,34 @@ async function manejarEventosGrillaProductos(e) {
 
     if (!producto) return;
 
+    // Tarjeta
+    if (e.target.classList.contains('abrir-detalle')) {
+        window.location.href = `producto.html?idProducto=${producto.id}`;
+    }
+
     // Agregar al carrito
     if (e.target.classList.contains('btn-agregar-carrito')) {
-        agregarAlCarrito(producto, carrito);
-        renderizarCarrito(getCarrito(), productos);              
+        agregarAlCarrito(producto, carrito, 1);
+        renderizarCarritoLateral(getCarrito(), productos);              
     };
-
-    // Mostrar detalle producto
-    if (e.target.classList.contains('btn-detalle')) {
-        // abrirModal();  
-        // renderizarModal(producto); 
-        window.location.href = `producto.html?idProducto=${producto.id}`;
-        
-    }
+    
 }
 
 const estrategia = {
-    precioMayor: (a, b) => b.price - a.price,
-    precioMenor: (a, b) => a.price - b.price,
-    mejorEvaluado: (a, b) => b.rating - a.rating
+    precioMayor: (a, b)=> b.price - a.price,
+    precioMenor: (a, b)=> a.price - b.price,
+    mejorEvaluado: (a, b)=> b.rating - a.rating
 }
 
-function manejarSelectOrdenador(e) {
-
+async function handlerOrdenador(e) {
+    
     const criterio = e.target.value;
+    const productos = await obtenerProductosStore();
+    const productosOrdenados = [...productos].sort(estrategia[criterio]);  
 
-    const ordenados = [...getProductosUI()].sort(estrategia[criterio]);
-    renderizarProductos(ordenados);  
-    
+    renderizarProductos(productosOrdenados);
     
 }
+
+
 

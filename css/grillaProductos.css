@@ -47,7 +47,7 @@
 .price{
     font-size: 1.1rem;
     font-weight: bolder;
-    color: #0f766e;
+    color: var(--titulo-color);
 
 }
 
@@ -68,4 +68,6 @@
     font-weight: bolder;
     cursor: pointer;
 }
+
+
 

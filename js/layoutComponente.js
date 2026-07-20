@@ -12,7 +12,7 @@ export async function cargarNavbar() {
 
 export async function cargarCarritoLateral() {
     
-    const resul = await fetch('./componentes/carrito.html');
+    const resul = await fetch('./componentes/carritoLateral.html');
     if (!resul.ok) throw new Error("Ocurrió un error al cargar el carrito lateral");
 
     const html = await resul.text();
