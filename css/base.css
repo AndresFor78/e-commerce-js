@@ -17,9 +17,40 @@ html{
     --z-toolbar: 10;   
     --z-carrito-overlay: 20;
     --z-carrito-lateral: 30;   
-    --titulo-color: #0f766e;  
+    --precio-final-color: #0f766e;  
+    --precio-original-color: #929090;
+    --descuento-fondo: rgb(235, 0, 41);
+    --descuento-color-fuente: rgb(255, 255, 255);
+}
+
+.container{
+    max-width: 1200px;
+    margin: 0 auto;    
+    padding: 10px;
+    padding-top: 4rem;
+    position: relative;
 }
 
 .abrir-detalle{
     cursor: pointer;
 }
+
+/************************* PRECIOS *************************/
+.precio-original{
+    color: var(--precio-original-color);
+    text-decoration: line-through;
+    font-weight: bolder;
+}
+
+.precio-final{
+    color: var(--precio-final-color);
+    font-weight: bolder;
+}
+
+.descuento-porcentaje{
+    font-size: small;
+    padding: 1px;
+    background-color: var(--descuento-fondo);
+    color: var(--descuento-color-fuente);
+}
+/************************* FIN PRECIOS *************************/

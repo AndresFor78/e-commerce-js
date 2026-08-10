@@ -1,8 +1,8 @@
-import { agregarAlCarrito } from "./carrito.js";
-import { getCarrito } from "./helpers/helperLocalStorage.js";
-import { obtenerValorParametro } from "./helpers/helperParametrosURL.js";
-import { obtenerProductosStore } from "./store/store.js";
-import { renderizarCarritoLateral } from "./ui.js";
+import { agregarAlCarrito } from "../carrito/carrito.js";
+import { getCarrito } from "../helpers/helperLocalStorage.js";
+import { obtenerValorParametro } from "../helpers/helperParametrosURL.js";
+import { obtenerProductosStore } from "../store/store.js";
+import { renderizarCarritoLateral } from "../ui/uiCarrito.js";
 
 export function inicializarEventosProducto() {
 

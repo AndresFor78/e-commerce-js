@@ -1,21 +1,34 @@
-import { renderizarCarritoLateral } from "./ui.js";
+import { renderizarCarritoLateral } from "../ui/uiCarrito.js";
 import { agregarAlCarrito, decrementarCantidad, eliminarProducto, incrementarCantidad,
-         notificarCarritoActualizado } from "./carrito.js";
-import { getCarrito, setCarrito } from "./helpers/helperLocalStorage.js";
-import { obtenerProductosStore } from "./store/store.js";
+         notificarCarritoActualizado } from "../carrito/carrito.js";
+import { getCarrito, setCarrito } from "../helpers/helperLocalStorage.js";
+import { obtenerProductosStore } from "../store/store.js";
+import { navegar } from "../services/navigationService.js";
+import { RUTAS } from "../constants/rutas.js";
 
 let carritoLateral = '';
 let overlay = '';
 
 export function inicializarEventosGlobal() {
 
+    const logo = document.querySelector('.logo');
     const navbarCarrito = document.querySelector('.navbar-carrito');
     carritoLateral = document.getElementById('carritoLateral');
     overlay = document.getElementById('overlay');   
     
+    logo.addEventListener('click', manejarEventosLogo);
     navbarCarrito.addEventListener('click', abrirCarrito);
     overlay.addEventListener('click', cerrarCarrito);   
     carritoLateral.addEventListener('click', manejarEventosCarritoLateral);   
+    
+}
+
+function manejarEventosLogo(e) {
+
+    const logo = e.target.closest('.logo-titulo');
+    if (!logo) return;
+
+    navegar(RUTAS.paginas.principal);    
     
 }
 
@@ -37,7 +50,14 @@ async function manejarEventosCarritoLateral(e) {
 
     // Ver carrito
     if (e.target.classList.contains('carrito-button-ver')) {
-        window.location.href = 'carrito.html';       
+        navegar(RUTAS.paginas.carrito); 
+        return;     
+    }
+
+    // Volver a productos
+    if (e.target.classList.contains('btn-ver-productos')) {
+        navegar(RUTAS.paginas.principal);
+        return;
     }
   
     // Cerrar carrito
@@ -50,13 +70,13 @@ async function manejarEventosCarritoLateral(e) {
 
     const idProducto = Number(carritoItem.dataset.id);   
    
-    if (e.target.classList.contains('btn-mas')) {
+    if (e.target.classList.contains('btn-incrementar')) {
         incrementarCantidad(idProducto, carrito); 
         renderizarCarritoLateral(getCarrito(), productos);
         notificarCarritoActualizado();
     };
 
-    if (e.target.classList.contains('btn-menos')) {
+    if (e.target.classList.contains('btn-decrementar')) {
         decrementarCantidad(idProducto, carrito);           
         renderizarCarritoLateral(getCarrito(), productos);
         notificarCarritoActualizado();
@@ -69,7 +89,7 @@ async function manejarEventosCarritoLateral(e) {
     }   
 
     if (e.target.classList.contains('abrir-detalle')) {
-        window.location.href = `producto.html?idProducto=${idProducto}`        
+        navegar(RUTAS.paginas.producto(idProducto));        
     }
     
 }

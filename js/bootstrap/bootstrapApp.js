@@ -1,7 +1,7 @@
-import { cargarNavbar, cargarCarritoLateral } from "../layoutComponente.js";
-import { inicializarEventosGlobal } from "../eventosGlobal.js";
+import { cargarNavbar, cargarCarritoLateral } from "../layout-componentes/layoutComponente.js";
+import { inicializarEventosGlobal } from "../eventos/eventosGlobal.js";
 import { obtenerProductosStore } from "../store/store.js";
-import { renderizarCarritoLateral } from "../ui.js";
+import { renderizarCarritoLateral } from "../ui/uiCarrito.js";
 import { getCarrito } from "../helpers/helperLocalStorage.js";
 
 export async function bootstrapApp() {

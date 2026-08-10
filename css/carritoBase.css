@@ -1,0 +1,47 @@
+.contenido-acciones{
+    display: flex;
+    align-items: center;
+}
+
+/* Botonera acciones del carrito */
+.carrito-acciones{
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.btn-incrementar, .btn-decrementar{
+    width: 20px;
+    height: 20px;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: none;
+    background-color: #f5f5f5;
+    border: 1px solid #d4d4d4;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.btn-incrementar:hover,.btn-decrementar:hover{
+    background-color: #e7e5e4;
+}
+
+/* Carrito vacío y finalizar compra */
+ .btn-accion{
+    width: 250px;
+    padding: 1rem .2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 20px;
+    border: none;
+    background-color: rgb(30, 30, 114);
+    color: #FFF;
+    font-weight: bold;
+ }
+
+ .btn-accion:hover{
+    background-color: rgb(16, 16, 80);
+ }

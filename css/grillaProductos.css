@@ -44,11 +44,14 @@
     text-align: center;
 }
 
-.price{
-    font-size: 1.1rem;
-    font-weight: bolder;
-    color: var(--titulo-color);
+.info-precio{
+    display: flex;
+    flex-direction: column;
+}
 
+.info-precio div{
+    display: flex;
+    gap: .3rem;
 }
 
 .card-botones{

@@ -1,8 +1,8 @@
-import { bootstrapApp } from "./bootstrap/bootstrapApp.js";
-import { obtenerValorParametro } from "./helpers/helperParametrosURL.js";
-import { obtenerProductoPorId } from "./api.js";
-import { renderizarProducto } from "./ui.js";
-import { inicializarEventosProducto } from "./eventosProducto.js";
+import { bootstrapApp } from "../bootstrap/bootstrapApp.js";
+import { obtenerValorParametro } from "../helpers/helperParametrosURL.js";
+import { obtenerProductoPorId } from "../api.js";
+import { renderizarProducto } from "../ui/uiProductoDetalle.js";
+import { inicializarEventosProducto } from "../eventos/eventosProducto.js";
 
 
 window.addEventListener('load', init);

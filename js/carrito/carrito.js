@@ -1,4 +1,4 @@
-import { getCarrito, setCarrito } from "./helpers/helperLocalStorage.js";
+import { getCarrito, setCarrito } from "../helpers/helperLocalStorage.js";
 
 export function agregarAlCarrito(producto, carrito, cantidad) {
 

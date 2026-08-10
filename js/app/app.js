@@ -1,6 +1,6 @@
-import { bootstrapApp } from "./bootstrap/bootstrapApp.js";
-import { inicializarEventosIndex } from "./eventosIndex.js";
-import { renderizarProductos } from "./ui.js";
+import { bootstrapApp } from "../bootstrap/bootstrapApp.js";
+import { inicializarEventosIndex } from "../eventos/eventosIndex.js";
+import { renderizarProductos } from "../ui/uiProductos.js";
 
 window.addEventListener('load', init);
 

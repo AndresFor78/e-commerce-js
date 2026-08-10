@@ -1,7 +1,10 @@
-import { renderizarProductos, renderizarCarritoLateral} from "./ui.js";
-import { agregarAlCarrito } from "./carrito.js";
-import { obtenerProductosStore } from "./store/store.js";
-import { getCarrito } from "./helpers/helperLocalStorage.js";
+import { renderizarProductos } from "../ui/uiProductos.js";
+import { renderizarCarritoLateral} from "../ui/uiCarrito.js";
+import { agregarAlCarrito } from "../carrito/carrito.js";
+import { obtenerProductosStore } from "../store/store.js";
+import { getCarrito } from "../helpers/helperLocalStorage.js";
+import { navegar } from "../services/navigationService.js";
+import { RUTAS } from "../constants/rutas.js";
 
 export function inicializarEventosIndex() {
 
@@ -31,8 +34,6 @@ async function manejarEventosGrillaProductos(e) {
     const carrito = getCarrito();
     const productos = await obtenerProductosStore();
 
-    console.log(e.target);    
-
     const card = e.target.closest('.card');
 
     if (!card) return;
@@ -44,7 +45,7 @@ async function manejarEventosGrillaProductos(e) {
 
     // Tarjeta
     if (e.target.classList.contains('abrir-detalle')) {
-        window.location.href = `producto.html?idProducto=${producto.id}`;
+        navegar(RUTAS.paginas.producto(idProducto));
     }
 
     // Agregar al carrito

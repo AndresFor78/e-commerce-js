@@ -18,10 +18,8 @@
     margin: 0 auto;
 }
 
-.navbar ul{
-    list-style-type: none;
-    display: flex;
-    gap: 1rem;
+.logo{
+    cursor: pointer;
 }
 
 .navbar-carrito{
