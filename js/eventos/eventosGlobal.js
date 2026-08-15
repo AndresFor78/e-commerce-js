@@ -5,6 +5,7 @@ import { getCarrito, setCarrito } from "../helpers/helperLocalStorage.js";
 import { obtenerProductosStore } from "../store/store.js";
 import { navegar } from "../services/navigationService.js";
 import { RUTAS } from "../constants/rutas.js";
+import { crearItemsCarrito } from "../carrito/itemCarritoFactory.js";
 
 let carritoLateral = '';
 let overlay = '';
@@ -42,11 +43,7 @@ function cerrarCarrito() {
     overlay.classList.remove('activo');
 }
 
-async function manejarEventosCarritoLateral(e) {
-
-    //Obtiene carrito del LocalStorage
-    const carrito = getCarrito();
-    const productos = await obtenerProductosStore();
+async function manejarEventosCarritoLateral(e) {      
 
     // Ver carrito
     if (e.target.classList.contains('carrito-button-ver')) {
@@ -68,23 +65,26 @@ async function manejarEventosCarritoLateral(e) {
     const carritoItem = e.target.closest('.carrito-item');
     if (!carritoItem) return;
 
+    const carrito = getCarrito();
+    const productos = await obtenerProductosStore();
+  
     const idProducto = Number(carritoItem.dataset.id);   
    
     if (e.target.classList.contains('btn-incrementar')) {
         incrementarCantidad(idProducto, carrito); 
-        renderizarCarritoLateral(getCarrito(), productos);
+        renderizarCarritoLateral(crearItemsCarrito(getCarrito(), productos));
         notificarCarritoActualizado();
     };
 
     if (e.target.classList.contains('btn-decrementar')) {
         decrementarCantidad(idProducto, carrito);           
-        renderizarCarritoLateral(getCarrito(), productos);
+        renderizarCarritoLateral(crearItemsCarrito(getCarrito(), productos));
         notificarCarritoActualizado();
     }
 
     if (e.target.closest('.carrito-eliminar-producto')) {
         eliminarProducto(idProducto, carrito);        
-        renderizarCarritoLateral(getCarrito(), productos);
+        renderizarCarritoLateral(crearItemsCarrito(getCarrito(), productos));
         notificarCarritoActualizado();
     }   
 

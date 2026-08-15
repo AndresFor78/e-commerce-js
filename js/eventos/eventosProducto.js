@@ -1,4 +1,5 @@
 import { agregarAlCarrito } from "../carrito/carrito.js";
+import { crearItemsCarrito } from "../carrito/itemCarritoFactory.js";
 import { getCarrito } from "../helpers/helperLocalStorage.js";
 import { obtenerValorParametro } from "../helpers/helperParametrosURL.js";
 import { obtenerProductosStore } from "../store/store.js";
@@ -6,7 +7,7 @@ import { renderizarCarritoLateral } from "../ui/uiCarrito.js";
 
 export function inicializarEventosProducto() {
 
-    document.addEventListener('carritoActualizado', actualizarProducto);
+    document.addEventListener('carritoActualizado', actualizarUI);
 
     const divProducto = document.getElementById('producto');
     
@@ -14,7 +15,7 @@ export function inicializarEventosProducto() {
     
 }
 
-function actualizarProducto() {
+function actualizarUI() {
 
     const idProducto = obtenerValorParametro('idProducto');
     const productoCantidad = document.getElementById('productoCarritoCantidad');
@@ -36,17 +37,13 @@ async function handlerProducto(e) {
 
     const divProducto = e.target.closest('.producto');
 
-    if (!divProducto) return;
+    if (!divProducto) return;      
+    const productos = await obtenerProductosStore();    
 
     const idProducto = Number(divProducto.dataset.idproducto);
-
-    const productos = await obtenerProductosStore();
-
     const producto = productos.find(p=> p.id === idProducto);
 
-    if (!producto) return;
-
-    const carrito = getCarrito();
+    if (!producto) return;    
 
     const spanCantidadProducto = divProducto.querySelector('.producto-cantidad');     
     const cantidadProducto = Number(spanCantidadProducto.textContent);
@@ -66,8 +63,9 @@ async function handlerProducto(e) {
     // Agregar al carrito
     if (e.target.classList.contains('btn-agregar-carrito')) {
 
-        agregarAlCarrito(producto, carrito, cantidadProducto);
-        renderizarCarritoLateral(getCarrito(), productos); 
+        agregarAlCarrito(producto, getCarrito(), cantidadProducto);
+        const itemsCarrito = crearItemsCarrito(getCarrito(), productos);
+        renderizarCarritoLateral(itemsCarrito); 
         spanCantidadProducto.textContent = 1; 
 
         const productoAgregado = getCarrito().find(c=> c.idProducto === producto.id);

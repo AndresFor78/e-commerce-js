@@ -52,15 +52,6 @@ export function decrementarCantidad(idProducto, carrito) {
     }
 }
 
-export function obtenerTotalProductosCarrito(productosCarrito) {    
-    
-    const total = productosCarrito.reduce((acc, item)=> {
-        return acc + item.cantidad;
-    }, 0);
-
-    return total;
-}
-
 export function notificarCarritoActualizado() {
     document.dispatchEvent(new CustomEvent('carritoActualizado'));
 }

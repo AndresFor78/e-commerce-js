@@ -22,3 +22,19 @@ export function crearItemCarrito(producto, productoCarrito) {
     };
     
 }
+
+export function crearItemsCarrito(carrito, productos) {
+
+    let itemsCarrito = [];
+    
+    carrito.forEach(productoCarrito => {
+
+        const producto = productos.find(p=> p.id === productoCarrito.idProducto);
+        if (!producto) return;
+
+        const itemCarrito = crearItemCarrito(producto,productoCarrito);
+        itemsCarrito.push(itemCarrito);
+    });
+
+    return itemsCarrito;
+}

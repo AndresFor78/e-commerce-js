@@ -3,6 +3,7 @@ import { inicializarEventosGlobal } from "../eventos/eventosGlobal.js";
 import { obtenerProductosStore } from "../store/store.js";
 import { renderizarCarritoLateral } from "../ui/uiCarrito.js";
 import { getCarrito } from "../helpers/helperLocalStorage.js";
+import { crearItemsCarrito } from "../carrito/itemCarritoFactory.js";
 
 export async function bootstrapApp() {
     
@@ -12,7 +13,11 @@ export async function bootstrapApp() {
     inicializarEventosGlobal();
 
     const productos = await obtenerProductosStore();
-    renderizarCarritoLateral(getCarrito(), productos);  
+
+    const itemsCarrito = crearItemsCarrito(getCarrito(), productos);
+    console.log(itemsCarrito);
+    
+    renderizarCarritoLateral(itemsCarrito);  
 
     return productos;
     

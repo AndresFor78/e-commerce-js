@@ -1,4 +1,5 @@
 import { decrementarCantidad, eliminarProducto, incrementarCantidad, notificarCarritoActualizado } from "../carrito/carrito.js";
+import { crearItemsCarrito } from "../carrito/itemCarritoFactory.js";
 import { RUTAS } from "../constants/rutas.js";
 import { getCarrito } from "../helpers/helperLocalStorage.js";
 import { navegar } from "../services/navigationService.js";
@@ -8,6 +9,7 @@ import { renderizarCarritoLateral, renderizarCarritoPrincipal } from "../ui/uiCa
 export function inicializarEventosCarrito() {
 
     document.getElementById('carritoPrincipal').addEventListener('click', manejarEventosCarrito);
+    document.addEventListener('carritoActualizado', actualizarUICarritoPrincipal);
 
 }
 
@@ -23,6 +25,7 @@ async function manejarEventosCarrito(e) {
 
     const carrito = getCarrito();
     const productos = await obtenerProductosStore();
+    const itemsCarrito = crearItemsCarrito(carrito, productos);
 
     const carritoItem = e.target.closest('.carrito-principal-item');
 
@@ -38,7 +41,7 @@ async function manejarEventosCarrito(e) {
     // Incrementar
     if (e.target.classList.contains('btn-incrementar')) {
         incrementarCantidad(idProducto, carrito);
-        refrescarUICarrito(productos);     
+        refrescarUICarrito(crearItemsCarrito(getCarrito(), productos));     
     }
 
     // Decrementar
@@ -47,21 +50,31 @@ async function manejarEventosCarrito(e) {
         if (productoCantidad.textContent === '1') return;
         
         decrementarCantidad(idProducto, carrito);
-        refrescarUICarrito(productos);       
+        refrescarUICarrito(crearItemsCarrito(getCarrito(), productos));       
     }
 
     // Eliminar
     if (e.target.closest('.carrito-eliminar-producto')) {
         eliminarProducto(idProducto, carrito);
-        refrescarUICarrito(productos);
-        
+        refrescarUICarrito(crearItemsCarrito(getCarrito(), productos));        
     }
 }
 
-function refrescarUICarrito(productos) {
-    renderizarCarritoLateral(getCarrito(), productos);
+async function actualizarUICarritoPrincipal() {
+
+    const productos = await obtenerProductosStore();
+    const carrito = getCarrito();
+    const itemsCarrito = crearItemsCarrito(carrito, productos);
+    renderizarCarritoPrincipal(itemsCarrito);
+    
+}
+
+function refrescarUICarrito(itemsCarrito) {
+
+    renderizarCarritoLateral(itemsCarrito);
     notificarCarritoActualizado();
-    renderizarCarritoPrincipal(getCarrito(), productos);    
+    renderizarCarritoPrincipal(itemsCarrito);  
+
 }
 
 function inicializarAcordeonResumen(e) {

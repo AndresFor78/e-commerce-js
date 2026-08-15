@@ -1,59 +1,68 @@
-import { obtenerTotalProductosCarrito } from "../carrito/carrito.js";
-import { crearItemCarrito } from "../carrito/carritoItemFactory.js";
-import { obtenerTotalCarrito } from "../carrito/carritoUtils.js";
+import { crearItemCarrito } from "../carrito/itemCarritoFactory.js";
 import { RUTAS } from "../constants/rutas.js";
 import { getCarrito, setCarrito } from "../helpers/helperLocalStorage.js";
 import { obtenerCantidadDescuentos, 
          obtenerCantidadTotalProductos, obtenerTotalCompra, 
-         obtenerTotalDescuentos, obtenerValorTotalProductos } from "../carrito/carritoItemOperaciones.js";
+         obtenerTotalDescuentos, obtenerValorTotalProductos } from "../carrito/itemCarritoOperaciones.js";
 
-export function renderizarCarritoLateral(carrito, productos) {
+export function renderizarCarritoLateral(itemsCarrito) {
 
     const carritoUI = obtenerCarritoUI();
 
-    actualizarEstadoCarrito(carrito, productos, carritoUI);
+    actualizarEstadoCarrito(itemsCarrito, carritoUI);
          
-    if (carrito.length === 0) {          
+    if (itemsCarrito.length === 0) {          
         renderizarCarritoLateralVacio(carritoUI.listaCarrito);          
         return;
     }
 
-    carritoUI.listaCarrito.innerHTML = renderizarCarrito(carrito, productos, crearHtmlCarritoLateral);    
+    carritoUI.listaCarrito.innerHTML = renderizarCarrito(itemsCarrito, crearHtmlCarritoLateral);    
     
 }
 
-export function renderizarCarritoPrincipal(carrito, productos) {
+export function renderizarCarritoPrincipal(itemsCarrito) {
 
     const carritoPrincipal = document.getElementById('carritoPrincipal');
 
-    if (carrito.length === 0) {
+    if (itemsCarrito.length === 0) {
         renderizarCarritoPrincipalVacio(carritoPrincipal);
         return;
     };
 
     const carritoLista = carritoPrincipal.querySelector('.carrito-principal-lista');
     const carritoResumen = carritoPrincipal.querySelector('.carrito-principal-resumen');  
-    const totalProductosCarrito = obtenerTotalProductosCarrito(carrito); 
+    const totalProductosCarrito = obtenerCantidadTotalProductos(itemsCarrito); 
     
     const tituloCarritoLista = `<h2>Carrito (${totalProductosCarrito} productos)</h2>`;
     const tituloResumen = `<h2>Resumen de la compra</h2>`
 
-    carritoLista.innerHTML = tituloCarritoLista + renderizarCarrito(carrito, productos, crearHtmlCarritoPrincipal);
-    carritoResumen.innerHTML = tituloResumen + renderizarCarritoResumen(carrito, productos, crearHtmlCarritoPrincipalResumen);
-    
+    carritoLista.innerHTML = tituloCarritoLista + renderizarCarrito(itemsCarrito, crearHtmlCarritoPrincipal);
+    carritoResumen.innerHTML = tituloResumen + renderizarCarritoResumen(itemsCarrito, crearHtmlCarritoPrincipalResumen);    
 
 }
 
-function actualizarEstadoCarrito(productosCarrito, productos, carritoUI) {
+function renderizarCarrito(itemsCarrito, crearHtml) {
 
-    const total = obtenerTotalProductosCarrito(productosCarrito);
+    let html = '';
 
-    carritoUI.listaCarrito.classList.toggle('carrito-vacio', productosCarrito.length === 0);
-    carritoUI.btnVer.classList.toggle('ocultar', productosCarrito.length === 0);
-    carritoUI.divCarritoResumen.classList.toggle('ocultar', productosCarrito.length === 0);
+    itemsCarrito.forEach(itemCarrito =>{
+        html += crearHtml(itemCarrito);
+    })
+
+    return html;
+    
+}
+
+function actualizarEstadoCarrito(itemsCarrito, carritoUI) {
+
+    const total = obtenerCantidadTotalProductos(itemsCarrito);
+
+    carritoUI.listaCarrito.classList.toggle('carrito-vacio', itemsCarrito.length === 0);
+    carritoUI.btnVer.classList.toggle('ocultar', itemsCarrito.length === 0);
+    carritoUI.divCarritoResumen.classList.toggle('ocultar', itemsCarrito.length === 0);
     carritoUI.cantidadTotalProductos.textContent = total;
     carritoUI.contadorCarrito.textContent = total;
-    carritoUI.spanTotalCarrito.textContent = `$ ${obtenerTotalCarrito(productosCarrito, productos).toFixed(2)}`
+    carritoUI.spanTotalCarrito.textContent = `$ ${obtenerTotalCompra(itemsCarrito).toFixed(2)}`
 
 }
 
@@ -83,43 +92,11 @@ function renderizarCarritoPrincipalVacio(carritoPrincipal) {
                                   `
 }
 
-function renderizarCarrito(carrito, productos, crearHtml) {
 
-    let html = '';
 
-    carrito.forEach(productoCarrito => {
+function renderizarCarritoResumen(itemsCarrito, crearHtml) {    
 
-        const producto = productos.find(p=> p.id === productoCarrito.idProducto);
-
-        if (!producto) return;
-
-        const itemCarrito = crearItemCarrito(producto, productoCarrito);
-
-        html += crearHtml(itemCarrito);        
-
-    });
-
-    return html;
-    
-}
-
-function renderizarCarritoResumen(carrito, productos, crearHtml) {
-
-    let arrayItemCarrito = [];    
-    
-    carrito.forEach(productoCarrito => {
-
-        const producto = productos.find(p=> p.id === productoCarrito.idProducto);
-
-        if(!producto) return;
-
-        const itemCarrito = crearItemCarrito(producto, productoCarrito);
-
-        arrayItemCarrito.push(itemCarrito);
-
-    });
-
-    return crearHtml(arrayItemCarrito);
+    return crearHtml(itemsCarrito);
    
 }
 
@@ -183,13 +160,13 @@ function crearHtmlCarritoPrincipal(itemCarrito) {
             `
 }
 
-function crearHtmlCarritoPrincipalResumen(arrayItemCarritoUI) {
+function crearHtmlCarritoPrincipalResumen(itemsCarrito) {
 
-    if(!arrayItemCarritoUI) return;
+    if(!itemsCarrito) return;
 
     let htmlDescuentosDetalle = '';
 
-    arrayItemCarritoUI.forEach(item => {       
+    itemsCarrito.forEach(item => {       
         
         htmlDescuentosDetalle += `<div class="contenido-item-detalle">
                                     <span class="item-contenido-titulo">${item.titulo}</span>
@@ -198,11 +175,11 @@ function crearHtmlCarritoPrincipalResumen(arrayItemCarritoUI) {
                                  `
     })
 
-    const totalProductos = obtenerCantidadTotalProductos(arrayItemCarritoUI);
-    const valorTotalProductos = obtenerValorTotalProductos(arrayItemCarritoUI);
-    const cantidadDescuentos = obtenerCantidadDescuentos(arrayItemCarritoUI);
-    const totalDescuentos = obtenerTotalDescuentos(arrayItemCarritoUI);
-    const totalCompra = obtenerTotalCompra(arrayItemCarritoUI);
+    const totalProductos = obtenerCantidadTotalProductos(itemsCarrito);
+    const valorTotalProductos = obtenerValorTotalProductos(itemsCarrito);
+    const cantidadDescuentos = obtenerCantidadDescuentos(itemsCarrito);
+    const totalDescuentos = obtenerTotalDescuentos(itemsCarrito);
+    const totalCompra = obtenerTotalCompra(itemsCarrito);
 
     console.log(cantidadDescuentos);
     

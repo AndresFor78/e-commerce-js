@@ -15,9 +15,6 @@ export function renderizarProductos(productos) {
         const precioFinal = obtenerPrecioFinal(producto);
         const rating = "⭐".repeat(Math.round(producto.rating));
 
-        console.log(precioFinal);
-        
-
         html+= `<div class="card" data-id="${producto.id}">
                     <img class="abrir-detalle" src="${producto.thumbnail}" />
                     <div class="info-producto">

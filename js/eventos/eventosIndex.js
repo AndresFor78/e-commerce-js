@@ -5,6 +5,7 @@ import { obtenerProductosStore } from "../store/store.js";
 import { getCarrito } from "../helpers/helperLocalStorage.js";
 import { navegar } from "../services/navigationService.js";
 import { RUTAS } from "../constants/rutas.js";
+import { crearItemsCarrito } from "../carrito/itemCarritoFactory.js";
 
 export function inicializarEventosIndex() {
 
@@ -29,15 +30,15 @@ async function handlerBuscador(e) {
     
 }
 
-async function manejarEventosGrillaProductos(e) {
-
-    const carrito = getCarrito();
-    const productos = await obtenerProductosStore();
+async function manejarEventosGrillaProductos(e) {    
 
     const card = e.target.closest('.card');
 
     if (!card) return;
 
+    const carrito = getCarrito();
+    const productos = await obtenerProductosStore();
+    
     const idProducto = Number(card.dataset.id);
     const producto = productos.find(p=> p.id === idProducto);
 
@@ -51,7 +52,7 @@ async function manejarEventosGrillaProductos(e) {
     // Agregar al carrito
     if (e.target.classList.contains('btn-agregar-carrito')) {
         agregarAlCarrito(producto, carrito, 1);
-        renderizarCarritoLateral(getCarrito(), productos);              
+        renderizarCarritoLateral(crearItemsCarrito(getCarrito(), productos));              
     };
     
 }
