@@ -72,25 +72,29 @@ async function manejarEventosCarritoLateral(e) {
    
     if (e.target.classList.contains('btn-incrementar')) {
         incrementarCantidad(idProducto, carrito); 
-        renderizarCarritoLateral(crearItemsCarrito(getCarrito(), productos));
-        notificarCarritoActualizado();
+        refrescarVistaCarritoLateral(productos);
     };
 
     if (e.target.classList.contains('btn-decrementar')) {
         decrementarCantidad(idProducto, carrito);           
-        renderizarCarritoLateral(crearItemsCarrito(getCarrito(), productos));
-        notificarCarritoActualizado();
+        refrescarVistaCarritoLateral(productos);
     }
 
     if (e.target.closest('.carrito-eliminar-producto')) {
         eliminarProducto(idProducto, carrito);        
-        renderizarCarritoLateral(crearItemsCarrito(getCarrito(), productos));
-        notificarCarritoActualizado();
+        refrescarVistaCarritoLateral(productos);
     }   
 
     if (e.target.classList.contains('abrir-detalle')) {
         navegar(RUTAS.paginas.producto(idProducto));        
     }
+    
+}
+
+function refrescarVistaCarritoLateral(productos) {
+
+    renderizarCarritoLateral(crearItemsCarrito(getCarrito(), productos));
+    notificarCarritoActualizado();
     
 }
 

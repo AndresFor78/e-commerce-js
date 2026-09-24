@@ -1,0 +1,16 @@
+#paginacion{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.paginas{
+    display: flex;
+    gap: .5rem;
+}
+
+.pagina-actual{
+    background-color: blue;
+    color: #FFF;
+}

@@ -1,9 +1,9 @@
 import { crearItemCarrito } from "../carrito/itemCarritoFactory.js";
 import { RUTAS } from "../constants/rutas.js";
-import { getCarrito, setCarrito } from "../helpers/helperLocalStorage.js";
-import { obtenerCantidadDescuentos, 
+import { obtenerCantidadProductosConDescuentos, 
          obtenerCantidadTotalProductos, obtenerTotalCompra, 
          obtenerTotalDescuentos, obtenerValorTotalProductos } from "../carrito/itemCarritoOperaciones.js";
+import { formatearDescuento, formatearPrecio } from "../helpers/helperFormato.js";
 
 export function renderizarCarritoLateral(itemsCarrito) {
 
@@ -107,15 +107,15 @@ function crearHtmlCarritoLateral(itemCarrito) {
                 <div class="carrito-contenido">
                     <div class="carrito-contenido-header">
                         <span class="producto-nombre abrir-detalle">${itemCarrito.titulo}</span>
-                        <span class="producto-total">$${itemCarrito.totalFinalPorProducto.toFixed(2)}</span>                            
+                        <span class="producto-total">${formatearPrecio(itemCarrito.totalFinalPorProducto)}</span>                            
                     </div> 
                     <div class="carrito-contenido-cuerpo">
                         <div class="contenido-precio">
                             <div>
-                                <span class="precio-final">$ ${itemCarrito.precioFinal.toFixed(2)}</span>
-                                <span class="descuento-porcentaje">$ ${itemCarrito.porcentajeDescuento.toFixed(2)}%</span>
+                                <span class="precio-final">${formatearPrecio(itemCarrito.precioFinal)}</span>
+                                <span class="descuento-porcentaje">${formatearDescuento(itemCarrito.porcentajeDescuento)}</span>
                             </div>
-                            <span class="precio-original">$ ${itemCarrito.precioOriginal}</span>
+                            <span class="precio-original">${formatearPrecio(itemCarrito.precioOriginal)}</span>
                         </div>
                         <div class="contenido-acciones">
                             <div class="carrito-acciones">
@@ -123,7 +123,9 @@ function crearHtmlCarritoLateral(itemCarrito) {
                                 <span class="producto-cantidad">${itemCarrito.cantidad}</span>
                                 <button class="btn-decrementar">-</button>                               
                             </div>
-                            <span class="carrito-eliminar-producto"><i class="fa-solid fa-trash-can"></i></span>
+                            <button class="carrito-eliminar-producto">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
                         </div>                     
                     </div>                   
                 </div>
@@ -135,17 +137,17 @@ function crearHtmlCarritoLateral(itemCarrito) {
 function crearHtmlCarritoPrincipal(itemCarrito) {
     
     return `<div class="carrito-principal-item" data-idproducto="${itemCarrito.idProducto}">
-                <img src="${itemCarrito.imagen}"> 
+                <img class="abrir-detalle" src="${itemCarrito.imagen}"> 
                 <div class="carrito-principal-contenido">
                     <div class="carrito-principal-info">
-                        <span class="carrito-principal-titulo">${itemCarrito.titulo}</span>
+                        <span class="carrito-principal-titulo abrir-detalle">${itemCarrito.titulo}</span>
                     </div>
                     <div class="carrito-principal-precio">
                         <div class="precio-info">
-                            <span class="precio-final">$${itemCarrito.precioFinal.toFixed(2)}</span>
-                            <span class="precio-original">$${itemCarrito.precioOriginal.toFixed(2)}</span>
+                            <span class="precio-final">${formatearPrecio(itemCarrito.precioFinal)}</span>
+                            <span class="precio-original">${formatearPrecio(itemCarrito.precioOriginal)}</span>
                         </div>
-                        <span class="descuento-porcentaje">${itemCarrito.porcentajeDescuento.toFixed(2)}%</span>
+                        <span class="descuento-porcentaje">${formatearDescuento(itemCarrito.porcentajeDescuento)}</span>
                     </div>
                     <div class="contenido-acciones">
                         <div class="carrito-acciones">
@@ -155,7 +157,9 @@ function crearHtmlCarritoPrincipal(itemCarrito) {
                         </div>                        
                     </div>                          
                 </div>
-                <span class="carrito-eliminar-producto"><i class="fa-solid fa-trash-can"></i></span>
+                <button class="carrito-eliminar-producto">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
             </div>    
             `
 }
@@ -170,14 +174,14 @@ function crearHtmlCarritoPrincipalResumen(itemsCarrito) {
         
         htmlDescuentosDetalle += `<div class="contenido-item-detalle">
                                     <span class="item-contenido-titulo">${item.titulo}</span>
-                                    <span class="item-contenido-total-descuento">-$${item.montoDescuentoTotal.toFixed(2)}</span>
+                                    <span class="item-contenido-total-descuento">-${formatearPrecio(item.montoDescuentoTotal)}</span>
                                   </div>                        
                                  `
     })
 
     const totalProductos = obtenerCantidadTotalProductos(itemsCarrito);
     const valorTotalProductos = obtenerValorTotalProductos(itemsCarrito);
-    const cantidadDescuentos = obtenerCantidadDescuentos(itemsCarrito);
+    const cantidadDescuentos = obtenerCantidadProductosConDescuentos(itemsCarrito);
     const totalDescuentos = obtenerTotalDescuentos(itemsCarrito);
     const totalCompra = obtenerTotalCompra(itemsCarrito);
 
@@ -186,8 +190,8 @@ function crearHtmlCarritoPrincipalResumen(itemsCarrito) {
 
     const html = `<div class="principal-resumen">
                     <div class="principal-resumen-header">
-                        <span class="productos-title">Productos(${totalProductos})</span>
-                        <span class="productos-total">$${valorTotalProductos.toFixed(2)}</span>                    
+                        <span class="productos-title">Productos(${formatearPrecio(totalProductos)})</span>
+                        <span class="productos-total">${formatearPrecio(valorTotalProductos)}</span>                    
                     </div>  
                     <hr>                  
                     <div class="principal-resumen-descuentos">
@@ -195,7 +199,7 @@ function crearHtmlCarritoPrincipalResumen(itemsCarrito) {
                             <div class="acordeon-item">
                                 <button class="acordeon-item-header">
                                     <span class="header-descuentos">Descuentos(${cantidadDescuentos})</span>
-                                    <span class="header-total-descuentos">-$${totalDescuentos.toFixed(2)}</span>
+                                    <span class="header-total-descuentos">-${formatearPrecio(totalDescuentos)}</span>
                                     <span class="header-icono"><i class="fa-solid fa-angle-down"></i></span>
                                 </button>
                                 <div class="acordeon-item-contenido">
@@ -207,7 +211,7 @@ function crearHtmlCarritoPrincipalResumen(itemsCarrito) {
                     <hr>
                     <div class="principal-resumen-total">
                         <span class="resumen-total-titulo">Total:</span>
-                        <span class="resumen-total-valor">$${totalCompra.toFixed(2)}</span>
+                        <span class="resumen-total-valor">${formatearPrecio(totalCompra)}</span>
                     </div>
                     <div class="principal-resumen-acciones">
                         <button class="btn-accion btn-finalizar-compra">Finalizar compra</button>

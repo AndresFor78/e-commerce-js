@@ -9,3 +9,14 @@ export function getCarrito() {
     return carrito;
     
 }
+
+export function setPaginaActual(paginaActual) {
+    localStorage.setItem('paginaActual', paginaActual);
+}
+
+export function getPaginaActual() {
+
+    const paginaActualLocalStorage = localStorage.getItem('paginaActual');
+    const paginaActual = paginaActualLocalStorage? Number(paginaActualLocalStorage): 1;
+    return paginaActual;
+}

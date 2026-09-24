@@ -1,13 +1,13 @@
+import { formatearDescuento, formatearPrecio } from "../helpers/helperFormato.js";
 import { getCarrito } from "../helpers/helperLocalStorage.js";
+import { obtenerPrecioFinal } from "../producto/productoUtils.js";
 
 export function renderizarProducto(producto) {
 
-    const divProducto = document.getElementById('producto');
+    const divProducto = document.getElementById('producto');   
 
-    const descuento = producto.discountPercentage/100;
-
-    const precioNuevo = producto.price - (producto.price * descuento);
-
+    const precioNuevo = obtenerPrecioFinal(producto);
+    
     // Si el producto ya se encuentra en el carrito
     const existe = getCarrito().find(c=> c.idProducto === producto.id);
 
@@ -54,9 +54,9 @@ export function renderizarProducto(producto) {
 
                     </div>
                     <div class="info-precio">
-                        <span class="precio-final">$${precioNuevo.toFixed(2)}</span> 
-                        <span class="precio-original">$${producto.price}</span>
-                        <span class="descuento-porcentaje">${producto.discountPercentage}%</span>
+                        <span class="precio-final">${formatearPrecio(precioNuevo)}</span> 
+                        <span class="precio-original">${formatearPrecio(producto.price)}</span>
+                        <span class="descuento-porcentaje">${formatearDescuento(producto.discountPercentage)}</span>
                                                
                     </div>
                     <div class="info-descripcion">

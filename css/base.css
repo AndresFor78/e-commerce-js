@@ -12,6 +12,11 @@ html{
     font-size: 16px;
 }
 
+footer{
+    text-align: center;
+    padding: 3rem;
+}
+
 :root{
     --z-navbar: 10;
     --z-toolbar: 10;   

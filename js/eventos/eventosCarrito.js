@@ -25,13 +25,10 @@ async function manejarEventosCarrito(e) {
 
     const carrito = getCarrito();
     const productos = await obtenerProductosStore();
-    const itemsCarrito = crearItemsCarrito(carrito, productos);
-
+   
     const carritoItem = e.target.closest('.carrito-principal-item');
 
-    if (!carritoItem) return;
-
-    const productoCantidad = carritoItem.querySelector('.producto-cantidad');
+    if (!carritoItem) return;   
 
     const idProducto = Number(carritoItem.dataset.idproducto);
     const producto = productos.find(p=> p.id === idProducto);
@@ -41,22 +38,23 @@ async function manejarEventosCarrito(e) {
     // Incrementar
     if (e.target.classList.contains('btn-incrementar')) {
         incrementarCantidad(idProducto, carrito);
-        refrescarUICarrito(crearItemsCarrito(getCarrito(), productos));     
+        refrescarVistaCarrito(productos);     
     }
 
     // Decrementar
     if (e.target.classList.contains('btn-decrementar')) {
-
-        if (productoCantidad.textContent === '1') return;
-        
         decrementarCantidad(idProducto, carrito);
-        refrescarUICarrito(crearItemsCarrito(getCarrito(), productos));       
+        refrescarVistaCarrito(productos);       
     }
 
     // Eliminar
     if (e.target.closest('.carrito-eliminar-producto')) {
         eliminarProducto(idProducto, carrito);
-        refrescarUICarrito(crearItemsCarrito(getCarrito(), productos));        
+        refrescarVistaCarrito(productos);        
+    }
+
+    if (e.target.classList.contains('abrir-detalle')) {
+        navegar(RUTAS.paginas.producto(idProducto));
     }
 }
 
@@ -69,8 +67,9 @@ async function actualizarUICarritoPrincipal() {
     
 }
 
-function refrescarUICarrito(itemsCarrito) {
+function refrescarVistaCarrito(productos) {
 
+    const itemsCarrito = crearItemsCarrito(getCarrito(), productos);
     renderizarCarritoLateral(itemsCarrito);
     notificarCarritoActualizado();
     renderizarCarritoPrincipal(itemsCarrito);  

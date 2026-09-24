@@ -1,3 +1,4 @@
+import { formatearDescuento, formatearPrecio } from "../helpers/helperFormato.js";
 import { obtenerPrecioFinal } from "../producto/productoUtils.js";
 
 export function renderizarProductos(productos) {
@@ -21,10 +22,10 @@ export function renderizarProductos(productos) {
                         <span class="title abrir-detalle">${producto.title}</span>
                         <div class="info-precio">
                             <div>
-                                <span class="precio-final">$ ${precioFinal.toFixed(2)}</span>
-                                <span class="descuento-porcentaje">${producto.discountPercentage.toFixed(2)}%</span>
+                                <span class="precio-final">${formatearPrecio(precioFinal)}</span>
+                                <span class="descuento-porcentaje">${formatearDescuento(producto.discountPercentage)}</span>
                             </div>
-                            <span class="precio-original">$ ${producto.price.toFixed(2)}</span>
+                            <span class="precio-original">${formatearPrecio(producto.price)}</span>
                         </div>
                         <span class="rating">${rating}</span>
                     </div>

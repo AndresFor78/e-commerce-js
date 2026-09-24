@@ -6,16 +6,20 @@ import { getCarrito } from "../helpers/helperLocalStorage.js";
 import { navegar } from "../services/navigationService.js";
 import { RUTAS } from "../constants/rutas.js";
 import { crearItemsCarrito } from "../carrito/itemCarritoFactory.js";
+import { obtenerProductosPorPagina } from "../paginacion/paginador.js";
+import { STATE } from "../state/state.js";
 
 export function inicializarEventosIndex() {
 
     const buscador = document.getElementById('buscador');
     const grillaProductos = document.getElementById('grillaProductos');    
     const ordenador = document.getElementById('ordenador');
+    const paginacion = document.getElementById('paginacion');
    
     buscador.addEventListener('input', handlerBuscador);
     grillaProductos.addEventListener('click', manejarEventosGrillaProductos); 
-    ordenador.addEventListener('change', handlerOrdenador);   
+    ordenador.addEventListener('change', handlerOrdenador);  
+    paginacion.addEventListener('click', handlerPaginacion); 
    
 }
 
@@ -70,6 +74,50 @@ async function handlerOrdenador(e) {
     const productosOrdenados = [...productos].sort(estrategia[criterio]);  
 
     renderizarProductos(productosOrdenados);
+    
+}
+
+async function handlerPaginacion(e) {
+    
+    if (e.target.classList.contains('btnAnterior')) {
+        console.log('anterior');
+        
+    }
+
+    if (e.target.classList.contains('btnSiguiente')) {
+        console.log('siguiente');
+        
+    }
+
+    if (e.target.classList.contains('btnNumeroPagina')) {
+
+        const productos = await obtenerProductosStore();
+        const paginaActual = Number(e.target.value);
+        
+        const productosPorPagina = obtenerProductosPorPagina(paginaActual, productos);
+
+        // Guarda la página actual en el STATE
+        STATE.paginaActual = paginaActual;
+
+        quitarEstiloPaginaActual(e.target);
+
+        e.target.classList.add('pagina-actual');
+
+        renderizarProductos(productosPorPagina);        
+        
+    }
+}
+
+function quitarEstiloPaginaActual(boton) {
+    
+    const divBotoneraPaginas = boton.closest('.paginas');
+    const botones = divBotoneraPaginas.querySelectorAll('button');
+    
+    botones.forEach(btn => {
+        btn.classList.remove('pagina-actual');
+    })
+    
+    
     
 }
 

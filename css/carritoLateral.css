@@ -40,7 +40,6 @@
 .carrito-cerrar button{
     width: 20px;
     height: 20px;
-    border: none;
     border: 1px solid #e5e5e5;
     transform: scale(1);
     transition: transform .2s ease;
@@ -161,6 +160,7 @@
 .carrito-eliminar-producto{
     width: 30px;
     height: 30px;
+    border: none;
     border-radius: 50%;
     background-color: #fee2e2;
     display: flex;
@@ -193,7 +193,6 @@
 .carrito-resumen button{
     padding: 5px 10px;
     border-radius: 8px;
-    border: none;
     border: 1px solid #817474;
     cursor: pointer;
     transform: scale(1);

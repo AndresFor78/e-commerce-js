@@ -17,15 +17,9 @@ export function obtenerValorTotalProductos(itemsCarrito) {
     return total;
 }
 
-export function obtenerCantidadDescuentos(itemsCarrito) {
+export function obtenerCantidadProductosConDescuentos(itemsCarrito) {
     
-    const arrayFiltrado = itemsCarrito.filter(item => item.montoDescuentoUnitario > 0);
-
-    if (!arrayFiltrado) return 0;
-
-    const total = arrayFiltrado.length;
-
-    return total;
+    return itemsCarrito.filter(itemCarrito => itemCarrito.montoDescuentoUnitario > 0).length;
     
 }
 

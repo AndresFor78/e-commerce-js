@@ -1,20 +1,22 @@
+import { API_URL } from "./constants/endpoints.js";
+
 export async function obtenerProductos() {
 
-    const resul = await fetch('https://dummyjson.com/products?limit=0');
+    const response = await fetch(`${API_URL}/products?limit=0`);
 
-    if(!resul.ok) throw new Error("Error al obtener productos");
+    if(!response.ok) throw new Error("Error al obtener productos");
 
-    const productos = await resul.json();
+    const productos = await response.json();
     return productos.products;    
     
 }
 
 export async function obtenerProductoPorId(idProducto) {
     
-    const resul = await fetch(`https://dummyjson.com/products/${idProducto}`);
+    const response = await fetch(`${API_URL}/products/${idProducto}`);
 
-    if (!resul.ok) throw new Error("Ocurrió un error al acceder a la información del producto");
+    if (!response.ok) throw new Error("Ocurrió un error al acceder a la información del producto");
 
-    return await resul.json();  
+    return await response.json();  
     
 }
