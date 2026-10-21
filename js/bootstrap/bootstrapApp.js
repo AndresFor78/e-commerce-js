@@ -15,8 +15,7 @@ export async function bootstrapApp() {
     const productos = await obtenerProductosStore();
 
     const itemsCarrito = crearItemsCarrito(getCarrito(), productos);
-    console.log(itemsCarrito);
-    
+        
     renderizarCarritoLateral(itemsCarrito);  
 
     return productos;

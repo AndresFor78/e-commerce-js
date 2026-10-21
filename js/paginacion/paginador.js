@@ -17,3 +17,59 @@ export function obtenerCantidadPaginas(productos) {
     
     return Math.ceil(productos.length / STATE.cantidadProductosPorPagina);
 }
+
+function crearArregloPaginacion(inicio, final) {
+    
+    const arreglo = [];
+
+    for (let i = inicio; i <= final; i++) {
+        arreglo.push(i);
+    };
+
+    return arreglo;
+}
+
+export const reglasPaginacion = [
+    {
+        condicion: datos => datos.paginaFinal <= 4,
+        calculo: datos => {
+            return crearArregloPaginacion(datos.paginaInicial, datos.paginaFinal)
+        }
+    },
+    {
+        condicion: datos => datos.paginaActual <= datos.paginaInicial + 2,
+        calculo: datos => {
+            return crearArregloPaginacion(datos.paginaInicial, datos.paginaActual)
+        }
+    },
+    {
+        condicion: datos => datos.paginaActual > datos.paginaInicial + 2 && datos.paginaActual === datos.paginaFinal,
+        calculo: datos => {
+            return [datos.paginaInicial, '...', datos.paginaActual - 2, datos.paginaActual - 1, datos.paginaActual];
+        }
+    },
+    {
+        condicion: datos => datos.paginaActual > datos. paginaInicial + 2 && datos.paginaActual !== datos.paginaFinal,
+        calculo: datos => {
+            return [datos.paginaInicial, '...', datos.paginaActual - 1, datos.paginaActual];
+        }
+    },
+    {
+        condicion: datos => datos.paginaActual > datos.paginaFinal - 3 && datos.paginaActual !== datos.paginaFinal,
+        calculo: datos => {
+            return crearArregloPaginacion(datos.paginaActual + 1, datos.paginaFinal);
+        }
+    },
+    {
+        condicion: datos => datos.paginaActual <= datos.paginaFinal - 3 && datos.paginaActual == datos.paginaInicial,
+        calculo: datos => {
+            return [datos.paginaActual + 1, datos.paginaActual + 2, '...', datos.paginaFinal];
+        }
+    },
+    {
+        condicion: datos => datos.paginaActual <= datos.paginaFinal - 3 && datos.paginaActual !== datos.paginaInicial,
+        calculo: datos => {
+            return [datos.paginaActual + 1, '...', datos.paginaFinal];
+        }
+    }
+]

@@ -15,8 +15,7 @@ async function init() {
         inicializarEventosIndex();     
         
         const paginaActual = STATE.paginaActual;
-        console.log(paginaActual);
-            
+                   
         const cantidadPaginas = obtenerCantidadPaginas(productos);
         const productosPorPagina = obtenerProductosPorPagina(paginaActual, productos); 
        

@@ -6,8 +6,9 @@ import { getCarrito } from "../helpers/helperLocalStorage.js";
 import { navegar } from "../services/navigationService.js";
 import { RUTAS } from "../constants/rutas.js";
 import { crearItemsCarrito } from "../carrito/itemCarritoFactory.js";
-import { obtenerProductosPorPagina } from "../paginacion/paginador.js";
+import { obtenerCantidadPaginas, obtenerProductosPorPagina } from "../paginacion/paginador.js";
 import { STATE } from "../state/state.js";
+import { renderizarPaginacion } from "../ui/uiPaginacion.js";
 
 export function inicializarEventosIndex() {
 
@@ -80,46 +81,76 @@ async function handlerOrdenador(e) {
 async function handlerPaginacion(e) {
     
     if (e.target.classList.contains('btnAnterior')) {
-        console.log('anterior');
+        
+        const paginaActual = STATE.paginaActual;
+
+        if (paginaActual === 1) return;
+
+        irAPagina(paginaActual - 1);
         
     }
 
     if (e.target.classList.contains('btnSiguiente')) {
-        console.log('siguiente');
+
+        const productos = await obtenerProductosStore();
+        const cantidadPaginas = obtenerCantidadPaginas(productos);
+
+        console.log(cantidadPaginas);        
+        
+        const paginaActual = STATE.paginaActual;
+
+        console.log(paginaActual);        
+
+        if (paginaActual === cantidadPaginas) return;
+
+        renderizarPaginacion(cantidadPaginas);
+
+        await irAPagina(paginaActual + 1);
         
     }
 
     if (e.target.classList.contains('btnNumeroPagina')) {
+       
+        const paginaActual = Number(e.target.value);
+
+        await irAPagina(paginaActual); 
 
         const productos = await obtenerProductosStore();
-        const paginaActual = Number(e.target.value);
         
-        const productosPorPagina = obtenerProductosPorPagina(paginaActual, productos);
+        const cantidadPaginas = obtenerCantidadPaginas(productos);
 
-        // Guarda la página actual en el STATE
-        STATE.paginaActual = paginaActual;
-
-        quitarEstiloPaginaActual(e.target);
-
-        e.target.classList.add('pagina-actual');
-
-        renderizarProductos(productosPorPagina);        
+        renderizarPaginacion(cantidadPaginas);
         
     }
 }
 
-function quitarEstiloPaginaActual(boton) {
+async function irAPagina(paginaActual) {
+
+    const productos = await obtenerProductosStore();
     
-    const divBotoneraPaginas = boton.closest('.paginas');
-    const botones = divBotoneraPaginas.querySelectorAll('button');
+    const productosPorPagina = obtenerProductosPorPagina(paginaActual, productos);
+
+    STATE.paginaActual = paginaActual;
+
+    actualizarEstiloPaginaActual(paginaActual);
+
+    renderizarProductos(productosPorPagina);    
+
+}
+
+function actualizarEstiloPaginaActual(numeroPagina) {
+    
+    const paginacion = document.getElementById('paginacion');
+    const botones = paginacion.querySelectorAll('.btnNumeroPagina');    
     
     botones.forEach(btn => {
         btn.classList.remove('pagina-actual');
-    })
-    
-    
+    });
+
+    const boton = paginacion.querySelector(`.btnNumeroPagina[value="${numeroPagina}"]`);
+
+    console.log(boton);    
+
+    boton.classList.add('pagina-actual');
     
 }
-
-
-
