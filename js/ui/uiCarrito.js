@@ -184,10 +184,7 @@ function crearHtmlCarritoPrincipalResumen(itemsCarrito) {
     const cantidadDescuentos = obtenerCantidadProductosConDescuentos(itemsCarrito);
     const totalDescuentos = obtenerTotalDescuentos(itemsCarrito);
     const totalCompra = obtenerTotalCompra(itemsCarrito);
-
-    console.log(cantidadDescuentos);
     
-
     const html = `<div class="principal-resumen">
                     <div class="principal-resumen-header">
                         <span class="productos-title">Productos(${formatearPrecio(totalProductos)})</span>

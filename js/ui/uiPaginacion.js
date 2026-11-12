@@ -3,12 +3,8 @@ import { STATE } from "../state/state.js";
 
 export function renderizarPaginacion(cantidadPaginas) {
 
-    // Testing
-    cantidadPaginas = 9;
-
     let paginaActual = STATE.paginaActual;
-    // Testing
-    // paginaActual = 7;
+    
     const paginaInicial = 1;
     const paginaFinal = cantidadPaginas;
 
@@ -21,16 +17,12 @@ export function renderizarPaginacion(cantidadPaginas) {
     const reglas = reglasPaginacion.filter(regla => regla.condicion(objetoPaginacion)); 
     
     if (reglas.length === 0) return;
+    
+    let contenedoresPaginacion = document.querySelectorAll('.paginacion');    
 
     let html = '';
-    let divPaginacion = document.getElementById('paginacion');
-
-    divPaginacion.innerHTML = '';
-
     html += `<button class="btnAnterior" type="button"><</button>`
     html += `<div class="paginas">`;
-
-    console.log(reglas);    
 
     reglas.forEach(regla => {
         const arreglo = regla.calculo(objetoPaginacion);
@@ -40,10 +32,14 @@ export function renderizarPaginacion(cantidadPaginas) {
     html += `</div>`;
     html += `<button class="btnSiguiente" type="button">></button>`
 
-    divPaginacion.innerHTML = html;
+    contenedoresPaginacion.forEach(contenedor => {
 
-    const btnPaginaActual = divPaginacion.querySelector(`button[value="${objetoPaginacion.paginaActual}"]`);
-    btnPaginaActual.classList.add('pagina-actual');
+        contenedor.innerHTML = html;
+
+        const btnPaginaActual = contenedor.querySelector(`button[value="${objetoPaginacion.paginaActual}"]`);
+        btnPaginaActual.classList.add('pagina-actual');
+
+    });    
     
 }
 

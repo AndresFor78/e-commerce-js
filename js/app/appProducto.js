@@ -19,10 +19,7 @@ async function init() {
 
     if (!producto) return;
 
-    renderizarProducto(producto);   
-    
-    console.log(producto);
-    
+    renderizarProducto(producto); 
     
 }
 

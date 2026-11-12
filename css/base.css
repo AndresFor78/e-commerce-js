@@ -12,9 +12,14 @@ html{
     font-size: 16px;
 }
 
-footer{
+footer {
+    margin-top: 2rem;
+    padding: 1.5rem 1rem;
     text-align: center;
-    padding: 3rem;
+    background-color: #eeeeee;
+    border-top: 1px solid #dddddd;
+    color: #555555;
+    font-size: 0.9rem;
 }
 
 :root{
@@ -59,3 +64,15 @@ footer{
     color: var(--descuento-color-fuente);
 }
 /************************* FIN PRECIOS *************************/
+
+/* Responsivo */
+
+/* Tablet */
+@media screen and (min-width: 601px) and (max-width:1100px){
+    .container{
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+
+}

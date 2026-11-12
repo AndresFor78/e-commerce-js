@@ -73,5 +73,26 @@
     cursor: pointer;
 }
 
+/* Responsivo */
+
+/* Celular */
+@media screen and (max-width: 600px){
+    #grillaProductos{
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .card{
+        max-width: none;
+        padding: 10px;
+    }
+
+    .card img{
+        height: 140px;
+    }
+}
+
+
 
 

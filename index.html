@@ -23,30 +23,31 @@
 
     <main>
         <div class="toolbar">
-
-                <div class="catalogo-info">
-                    <p><span id="cantidadProductosEncontrados"></span> Productos</p>
+                <div class="catalogo">
+                    <div class="catalogo-info">
+                        <p><span id="cantidadProductosEncontrados"></span> Productos encontrados</p>
+                    </div>
+                    <div class="catalogo-acciones">
+                        <input id="buscador" placeholder="busca tu producto aquí" type="text">
+                        <select id="ordenador">
+                            <option value="">Ordenar por</option>
+                            <option value="precioMayor">Precio: mayor a menor</option>
+                            <option value="precioMenor">Precio: menor a mayor</option>
+                            <option value="mejorEvaluado">Mejor evaluados</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="catalogo-acciones">
-                    <input id="buscador" placeholder="busca tu producto aquí" type="text">
-                    <select id="ordenador">
-                        <option value="">Ordenar por</option>
-                        <option value="precioMayor">Precio: mayor a menor</option>
-                        <option value="precioMenor">Precio: menor a mayor</option>
-                        <option value="mejorEvaluado">Mejor evaluados</option>
-                    </select>                    
-                </div>
-
+                <div class="paginacion"></div>
          </div>   
 
         <div class="container">
             <div id="grillaProductos"></div> 
-            <div id="paginacion"></div>           
+            <div class="paginacion"></div>           
         </div>
     </main>
 
     <footer>
-        <p>Creado por Andrés Orellana Vidal</p>
+        <p>Creado por Andrés Orellana Vidal © 2026</p>
     </footer>
 
     <div id="contenedorCarritoLateral"></div>  

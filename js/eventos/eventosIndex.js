@@ -15,12 +15,15 @@ export function inicializarEventosIndex() {
     const buscador = document.getElementById('buscador');
     const grillaProductos = document.getElementById('grillaProductos');    
     const ordenador = document.getElementById('ordenador');
-    const paginacion = document.getElementById('paginacion');
+    const contenedoresPaginacion = document.querySelectorAll('.paginacion');
    
     buscador.addEventListener('input', handlerBuscador);
     grillaProductos.addEventListener('click', manejarEventosGrillaProductos); 
-    ordenador.addEventListener('change', handlerOrdenador);  
-    paginacion.addEventListener('click', handlerPaginacion); 
+    ordenador.addEventListener('change', handlerOrdenador); 
+
+    contenedoresPaginacion.forEach(contenedor => {
+        contenedor.addEventListener('click', handlerPaginacion);
+    });
    
 }
 
@@ -80,45 +83,43 @@ async function handlerOrdenador(e) {
 
 async function handlerPaginacion(e) {
     
-    if (e.target.classList.contains('btnAnterior')) {
+    if (e.target.classList.contains('btnAnterior')) {        
         
         const paginaActual = STATE.paginaActual;
-
         if (paginaActual === 1) return;
 
-        irAPagina(paginaActual - 1);
+        const productos = await obtenerProductosStore();
+        const cantidadPaginas = obtenerCantidadPaginas(productos);
+
+        renderizarPaginacion(cantidadPaginas);
+        await irAPagina(paginaActual - 1);
         
     }
 
     if (e.target.classList.contains('btnSiguiente')) {
 
         const productos = await obtenerProductosStore();
-        const cantidadPaginas = obtenerCantidadPaginas(productos);
-
-        console.log(cantidadPaginas);        
-        
+        const cantidadPaginas = obtenerCantidadPaginas(productos);        
         const paginaActual = STATE.paginaActual;
-
-        console.log(paginaActual);        
 
         if (paginaActual === cantidadPaginas) return;
 
         renderizarPaginacion(cantidadPaginas);
-
         await irAPagina(paginaActual + 1);
         
     }
 
     if (e.target.classList.contains('btnNumeroPagina')) {
+
+        // Controla si el botón es ...
+        if (e.target.value === '...') return;        
        
         const paginaActual = Number(e.target.value);
-
-        await irAPagina(paginaActual); 
-
-        const productos = await obtenerProductosStore();
         
+        const productos = await obtenerProductosStore();        
         const cantidadPaginas = obtenerCantidadPaginas(productos);
 
+        await irAPagina(paginaActual); 
         renderizarPaginacion(cantidadPaginas);
         
     }
@@ -139,18 +140,24 @@ async function irAPagina(paginaActual) {
 }
 
 function actualizarEstiloPaginaActual(numeroPagina) {
+  
+    const contenedoresPaginacion = document.querySelectorAll('.paginacion');
+
+    contenedoresPaginacion.forEach(contenedor => {
+
+        const botones = contenedor.querySelectorAll('.btnNumeroPagina');    
     
-    const paginacion = document.getElementById('paginacion');
-    const botones = paginacion.querySelectorAll('.btnNumeroPagina');    
+        botones.forEach(btn => {
+            btn.classList.remove('pagina-actual');
+        });
+
+        const boton = contenedor.querySelector(`.btnNumeroPagina[value="${numeroPagina}"]`);
+
+        boton.classList.add('pagina-actual');
+
+    })
     
-    botones.forEach(btn => {
-        btn.classList.remove('pagina-actual');
-    });
-
-    const boton = paginacion.querySelector(`.btnNumeroPagina[value="${numeroPagina}"]`);
-
-    console.log(boton);    
-
-    boton.classList.add('pagina-actual');
+    
+    
     
 }
