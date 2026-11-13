@@ -5,7 +5,7 @@ export const RUTAS = {
         producto: idProducto => `producto.html?idProducto=${idProducto}`
     },
     imagenes: {
-        carritoVacio: '../assets/img/empty-cart.svg'
+        carritoVacio: './assets/img/empty-cart.svg'
     }
 
 }
