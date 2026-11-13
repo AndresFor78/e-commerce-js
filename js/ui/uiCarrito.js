@@ -84,7 +84,7 @@ function renderizarCarritoPrincipalVacio(carritoPrincipal) {
                                         <img class="imagen-carrito-vacio" src="${RUTAS.imagenes.carritoVacio}">
                                         <div class="carrito-vacio-info">
                                             <h3>Tu carro está vacío</h3>
-                                            <p>¡Continúa busando tus productos!</p>
+                                            <p>¡Continúa buscando tus productos!</p>
                                         </div>
                                     </div>
                                     <button class="btn-accion">Ver productos</button>
